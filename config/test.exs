@@ -3,6 +3,11 @@ import Config
 # Only in tests, remove the complexity from the password hashing algorithm
 config :bcrypt_elixir, :log_rounds, 1
 
+config :wallaby, otp_app: :live_view_svelte_offline_demo
+config :wallaby, driver: Wallaby.Chrome
+config :wallaby, chromedriver: [path: "/usr/bin/chromedriver", binary: ""]
+config :wallaby, screenshot_on_failure: true
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used
@@ -21,7 +26,7 @@ config :live_view_svelte_offline_demo, LiveViewSvelteOfflineDemo.Repo,
 config :live_view_svelte_offline_demo, LiveViewSvelteOfflineDemoWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "PmEjSIzqbl3MVDsTRnq77b0Cw0Jo100TvpQ4lDiClS5pqzZcU7NhkH3kjK3cm34k",
-  server: false
+  server: true
 
 # In test we don't send emails.
 config :live_view_svelte_offline_demo, LiveViewSvelteOfflineDemo.Mailer,

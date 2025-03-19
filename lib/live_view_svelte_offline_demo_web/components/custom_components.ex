@@ -33,17 +33,17 @@ defmodule LiveViewSvelteOfflineDemoWeb.CustomComponents do
         <!-- End Favicons -->
         <meta name="csrf-token" content={Phoenix.Controller.get_csrf_token()} />
         <.live_title>ToDo</.live_title>
-        <meta name="description" content="Local-First LiveView Svelte ToDo App" />
+        <meta name="description" content="Local-First LiveView Svelte Journaling App" />
         <!-- Open Graph -->
         <meta property="og:title" content="ToDo" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://liveview-svelte-pwa.fly.dev" />
-        <meta property="og:description" content="Local-First LiveView Svelte ToDo App" />
+        <meta property="og:description" content="Local-First LiveView Svelte Journaling App" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="ToDo" />
         <meta property="og:image" content="https://liveview-svelte-pwa.fly.dev/og.png" />
         <meta property="og:image:url" content="https://liveview-svelte-pwa.fly.dev/og.png" />
-        <meta property="og:image:alt" content="ToDo app logo" />
+        <meta property="og:image:alt" content="Journaling app logo" />
         <!-- End Open Graph -->
         <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
         <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
