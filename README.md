@@ -70,3 +70,4 @@ fly launch
   (via [y-indexeddb](https://github.com/yjs/y-indexeddb)) for offline support.
 - [CRDTs](https://crdt.tech/) (via [Yjs](https://github.com/yjs/yjs)) to resolve conflicts between
   distributed app states.
+- [Wallaby](https://github.com/elixir-wallaby/wallaby) to run integration tests
