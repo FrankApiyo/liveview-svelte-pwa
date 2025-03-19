@@ -92,4 +92,12 @@ defmodule LiveViewSvelteOfflineDemoWeb.Router do
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
   end
+
+  if Mix.env() == :test do
+    scope "/test" do
+      get "/trigger-internal-server-error",
+          IntentionalError.TestErrorController,
+          :error
+    end
+  end
 end

@@ -1,16 +1,20 @@
-defmodule LiveViewSvelteOfflineDemoWeb.ErrorHTMLTest do
-  use LiveViewSvelteOfflineDemoWeb.ConnCase, async: true
+defmodule LiveViewSvelteOfflineDemoWeb.ErrorPageTest do
+  use ExUnit.Case, async: true
+  use Wallaby.Feature
 
-  # Bring render_to_string/4 for testing custom views
-  import Phoenix.Template
+  feature "renders 404 page", %{session: session} do
+    session
+    |> visit("/non-existent-page")
+    |> take_screenshot(name: "page_not_found")
 
-  test "renders 404.html" do
-    assert render_to_string(LiveViewSvelteOfflineDemoWeb.ErrorHTML, "404", "html", []) ==
-             "Not Found"
+    assert_has(session, Wallaby.Query.text("Whoops, page not found..."))
   end
 
-  test "renders 500.html" do
-    assert render_to_string(LiveViewSvelteOfflineDemoWeb.ErrorHTML, "500", "html", []) ==
-             "Internal Server Error"
+  feature "renders 500 page", %{session: session} do
+    session
+    |> visit("/test/trigger-internal-server-error")
+    |> take_screenshot(name: "internal_server_error")
+
+    assert_has(session, Wallaby.Query.text("Whoops, an unknown error has occurred..."))
   end
 end
