@@ -172,6 +172,40 @@ async function respond(request) {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>ToDo · Offline-Enabled LiveView Svelte Demo</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                color: #a6abbb;
+                background-color: #1d222a;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+              }
+              h1 {
+                font-size: 24px;
+              }
+              p {
+                font-size: 18px;
+                margin-bottom: 20px;
+              }
+              a {
+                display: inline-block;
+                padding: 10px 20px;
+                font-size: 16px;
+                color: #000f0c;
+                background-color: #00cdb8;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+              }
+              a:hover {
+                background-color: #14b8a6;
+              }
+            </style>
           </head>
           <body>
             <h1>Whoops, can't connect to server...</h1>
@@ -179,7 +213,7 @@ async function respond(request) {
             <a href="/">Refresh</a>
           </body>
         </html>
-      `,
+        `,
         {
           status: 503,
           headers: { "Content-Type": "text/html" },

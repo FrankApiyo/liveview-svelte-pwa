@@ -13,7 +13,7 @@
 </script>
 
 <div class="max-w-md mx-auto px-4 md:p-0">
-  <h1 class="text-5xl font-black my-5">Local-First LiveView Svelte ToDo App</h1>
+  <h1 class="text-5xl font-black my-5">Local-First LiveView Svelte Journaling App</h1>
 
   <p>
     This to-do app is a demo of an installable
@@ -26,17 +26,6 @@
     >) that can sync real-time across multiple devices while also being able to work locally
     offline.
   </p>
-
-  <h2 class="text-3xl font-bold my-3">Video Walkthrough</h2>
-
-  <iframe
-    class="w-full aspect-video my-6"
-    src="https://www.youtube.com/embed/PX9-lq0LL9Q?si=xdd3inTC72OvVV0G"
-    title="YouTube video player"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    allowfullscreen
-  ></iframe>
 
   {#if showAuthLinks}
     <h2 class="text-3xl font-bold my-3">Try it out</h2>
@@ -96,45 +85,14 @@
   </div>
 
   <div class="my-6">
-    <h2 class="text-3xl font-bold my-3">Inspired by</h2>
-
-    <ul class="list-disc pl-4">
-      <li>
-        Wout De Puysseleir -
-        <Link href="https://www.youtube.com/watch?v=JMkvbW35QvA" external>
-          LiveSvelte - Render Svelte directly into Phoenix LiveView with E2E reactivity.
-        </Link>
-      </li>
-
-      <li>
-        Ryan Cooke -
-        <Link href="https://www.youtube.com/watch?v=asm2TTm035o" external>
-          E2E Reactivity - using Svelte with Phoenix LiveView
-        </Link>
-      </li>
-
-      <li>
-        Daniils Petrovs -
-        <Link href="https://speakerdeck.com/danirukun/svelte-hololive-fan-booth-project" external>
-          SvelteKit: From landing page to offline PWAs
-        </Link>
-      </li>
-    </ul>
-  </div>
-
-  <div class="my-6">
     <h2 class="text-3xl font-bold my-3">Contact</h2>
-
-    Created by
-    <Link href="https://tonydang.com" external>Tony Dang</Link>. Please feel free send any questions
-    or feedback to
-    <Link href="mailto:tony@tonydang.com" external>tony@tonydang.com</Link>.
+    <Link href="mailto:franklineapiyo@gmail.com" external>franklineapiyo@gmail.com</Link>.
   </div>
 
   <div class="my-6">
     <h2 class="text-3xl font-bold my-3">Source Code</h2>
     <a
-      href="https://github.com/thisistonydang/liveview-svelte-pwa"
+      href="https://github.com/frankApiyo/liveview-svelte-pwa"
       aria-label="Github"
       target="_blank"
       rel="noopener noreferrer"

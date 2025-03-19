@@ -1,4 +1,4 @@
-# Local-First LiveView Svelte ToDo App
+# Local-First LiveView Svelte Journaling App
 
 This to-do app is a demo of an installable [Phoenix](https://www.phoenixframework.org/)
 Progressive Web App ([PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps))

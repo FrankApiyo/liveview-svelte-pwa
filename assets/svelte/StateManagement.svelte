@@ -113,6 +113,7 @@
   }
 
   function syncServerToClient({ event, document }: ServerDocument) {
+    console.log("document: ", document)
     if (event === "mount") return;
 
     // If no document state exists on server, create a new document from client
