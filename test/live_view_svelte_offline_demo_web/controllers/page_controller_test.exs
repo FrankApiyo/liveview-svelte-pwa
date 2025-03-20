@@ -12,7 +12,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.PageLiveTest do
 
     assert_has(
       session,
-      Wallaby.Query.text("This to-do app is a demo of an installable")
+      Wallaby.Query.text("This Journaling app is a demo of an installable")
     )
 
     assert_has(

@@ -16,7 +16,7 @@
   <h1 class="text-5xl font-black my-5">Local-First LiveView Svelte Journaling App</h1>
 
   <p>
-    This to-do app is a demo of an installable
+    This Journaling app is a demo of an installable
     <Link href="https://www.phoenixframework.org/" external>Phoenix</Link>
     Progressive Web App (<Link
       href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps"

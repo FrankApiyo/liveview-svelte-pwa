@@ -1,7 +1,7 @@
 {
   "name": "ToDo",
   "short_name": "ToDo",
-  "description": "A local-first to-do app.",
+  "description": "A local-first Journaling app.",
   "id": "/",
   "scope": "/",
   "start_url": "/",
@@ -50,5 +50,5 @@
       "form_factor": "wide",
       "label": "Desktop Screenshot (Dark Theme)"
     }
- ]
+  ]
 }
