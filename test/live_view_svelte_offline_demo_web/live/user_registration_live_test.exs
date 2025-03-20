@@ -76,7 +76,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.UserRegistrationLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element(~s|.hero a:fl-contains("Sign in")|)
+        |> element(~s|a[href="/users/log_in"]|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 

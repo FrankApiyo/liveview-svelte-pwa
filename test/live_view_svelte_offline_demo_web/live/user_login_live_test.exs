@@ -63,7 +63,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.UserLoginLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element(~s|.hero a:fl-contains("Sign up")|)
+        |> element(~s|a[href="/users/register"]|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
@@ -77,7 +77,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.UserLoginLiveTest do
 
       {:ok, conn} =
         lv
-        |> element(~s|.hero a:fl-contains("Forgot your password?")|)
+        |> element(~s|a[href="/users/reset_password"]|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/reset_password")
 

@@ -48,3 +48,6 @@ npm-debug.log
 .dev.vars
 .env
 .env.production
+
+# screenshots
+screenshots
