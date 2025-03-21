@@ -33,6 +33,7 @@ defmodule LiveViewSvelteOfflineDemo.MixProject do
   defp deps do
     [
       {:wallaby, "~> 0.30", runtime: false, only: :test},
+      {:y_ex, "~> 0.6.0"},
       {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7.10"},
       {:phoenix_ecto, "~> 4.4"},
