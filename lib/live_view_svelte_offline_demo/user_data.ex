@@ -80,14 +80,12 @@ defmodule LiveViewSvelteOfflineDemo.UserData do
     Yex.apply_update(doc, decoded_binary)
     map = Yex.Doc.get_map(doc, "")
     IO.inspect(map, label: "first map")
-    %{"lists" => yLists, "todos" => yTodos} = Yex.Map.to_map(map)
-    yArrayLists = Yex.Array.to_list(yLists)
-    yArrayTodos = Yex.Array.to_list(yTodos)
-    IO.inspect(yArrayTodos)
-    todos = Enum.map(yArrayTodos, fn todo -> Yex.Map.to_map(todo) end)
-    lists = Enum.map(yArrayLists, fn list -> Yex.Map.to_map(list) end)
+    IO.inspect(Yex.Map.to_map(map), label: "yex map")
+    %{"journals" => yJournals} = Yex.Map.to_map(map)
+    yJournalList = Yex.Array.to_list(yJournals)
+    journals = Enum.map(yJournalList, fn list -> Yex.Map.to_map(list) end)
 
-    IO.inspect(%{"lists" => lists, "todos" => todos}, label: "lists and todos")
+    IO.inspect(%{"journals" => journals}, label: "lists and todos")
 
     user_doc
   end

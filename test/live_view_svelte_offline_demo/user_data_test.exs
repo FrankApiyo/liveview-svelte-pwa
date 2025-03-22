@@ -35,13 +35,18 @@ defmodule LiveViewSvelteOfflineDemo.UserDataTest do
       user_document = user_document_fixture()
       update_attrs = %{document: "some updated document"}
 
-      assert {:ok, %UserDocument{} = user_document} = UserData.update_user_document(user_document, update_attrs)
+      assert {:ok, %UserDocument{} = user_document} =
+               UserData.update_user_document(user_document, update_attrs)
+
       assert user_document.document == "some updated document"
     end
 
     test "update_user_document/2 with invalid data returns error changeset" do
       user_document = user_document_fixture()
-      assert {:error, %Ecto.Changeset{}} = UserData.update_user_document(user_document, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               UserData.update_user_document(user_document, @invalid_attrs)
+
       assert user_document == UserData.get_user_document!(user_document.id)
     end
 
