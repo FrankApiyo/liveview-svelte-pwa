@@ -51,8 +51,14 @@
       throw new Error("The list name must be a string.");
     }
 
+    let oldListBody = oldList.get("body");
+    if (typeof oldListBody !== "string") {
+      throw new Error("The list name must be a string.");
+    }
+
     newList.set("id", oldListId);
     newList.set("name", oldListName);
+    newList.set("body", oldListBody)
 
     $yTodoLists.doc.transact(() => {
       $yTodoLists.delete(oldIndex);
