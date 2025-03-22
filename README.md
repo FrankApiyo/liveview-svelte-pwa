@@ -35,6 +35,25 @@ mix ecto.create
 mix phx.server
 ```
 
+5. Adding pre-commit hooks.
+
+```bash
+mkdir -p .git/hooks
+echo '#!/bin/sh
+# Get the Git root directory
+GIT_ROOT=$(git rev-parse --show-toplevel)
+# Change to assets directory
+cd "$GIT_ROOT/assets" || exit 1
+# Run Prettier
+npx prettier --write .
+# Change back to Git root
+cd "$GIT_ROOT" || exit 1
+# Run mix format
+mix format
+' > .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
 ## Deploying the Project
 
 To deploy this app to [Fly.io](https://fly.io/), run the following commands.
@@ -74,11 +93,11 @@ fly launch
 
 ## Todos
 
-- [ ] Add some pre-commit hooks to run the following:
-  - [ ] `mix format`
-  - [ ] `npx prettier --write .`
+- [X] Add some pre-commit hooks to run the following:
+  - [X] `mix format`
+  - [X] `npx prettier --write .`
 - [ ] Add APIs
-  - [ ] Add new tables for journals
+  - [ ] Add new tables for Journals
   - [ ] Add async tasks to sync to these tables
   - [ ] Add API authentication
   - [ ] Add some simplistic RBAC
