@@ -82,7 +82,7 @@
   import { IndexeddbPersistence } from "y-indexeddb";
   import * as Y from "yjs";
 
-  import { selectedListId, urlHash } from "$stores/clientOnlyState";
+  import { selectedJournalId, urlHash } from "$stores/clientOnlyState";
   import { journals, yJournals } from "$stores/crdtState";
   import { liveView, serverDocument } from "$stores/liveViewSocket";
   import { syncState } from "$stores/syncState";
@@ -168,7 +168,7 @@
   }
 
   /**
-   * Keep $urlHash and $selectedListId in sync with the url.
+   * Keep $urlHash and $selectedJournalId in sync with the url.
    */
   function syncAppStateWithUrl() {
     const url = new URL(window.location.href);
@@ -177,7 +177,7 @@
     switch (hash) {
       case "#about":
         $urlHash = "about";
-        $selectedListId = "";
+        $selectedJournalId = "";
         history.replaceState({}, "", "/app");
         history.pushState({}, "", "/app#about");
         break;
@@ -187,19 +187,19 @@
         const journal = $journals.find((journal) => journal.id === journalId);
         if (journal) {
           $urlHash = "journalId";
-          $selectedListId = journalId;
+          $selectedJournalId = journalId;
           history.replaceState({}, "", "/app");
           history.pushState({}, "", `/app#${journalId}`);
         } else {
           $urlHash = "";
-          $selectedListId = "";
+          $selectedJournalId = "";
           history.replaceState({}, "", "/app");
         }
         break;
     }
   }
 
-  // Sync urlHash and selectedListId with url on app start.
+  // Sync urlHash and selectedJournalId with url on app start.
   // Note: This needs to happen after syncing to indexedDb
   // so that $journals is populated.
   $: if (isSyncedToIndexedDb) syncAppStateWithUrl();

@@ -11,13 +11,13 @@
   import * as Y from "yjs";
 
   import {
-    isListsOpened,
+    isJournalsOpened,
     isJournalOpened,
     itemToProcessId,
-    newList,
+    newJournal,
     newJournal,
     openedMenuId,
-    selectedListId,
+    selectedJournalId,
   } from "$stores/clientOnlyState";
   import { journals, yJournals } from "$stores/crdtState";
   import { liveView } from "$stores/liveViewSocket";
@@ -39,13 +39,13 @@
   let dragDisabled = true;
 
   // Journal journal handlers ___________________________________________________________________________
-  function addList() {
+  function addJournal() {
     const journal = new Y.Map<string>();
     journal.set("id", crypto.randomUUID());
-    journal.set("name", $newList);
+    journal.set("name", $newJournal);
     $yJournals.unshift([journal]);
 
-    $newList = "";
+    $newJournal = "";
 
     syncDocumentToServer($liveView);
   }
@@ -54,25 +54,23 @@
     return;
   }
 
-  // Shared handlers for both todo journals and todo items ____________________________________________
-
   const updateItem: UpdateItem = (newItem) => {
-    for (const yList of $yJournals) {
-      if (yList.get("id") === newItem.id) {
+    for (const yJournal of $yJournals) {
+      if (yJournal.get("id") === newItem.id) {
         $yJournals.doc.transact(() => {
-          yList.set("name", newItem.name);
+          yJournal.set("name", newItem.name);
 
           newItem.newName === undefined || newItem.newName === ""
-            ? yList.delete("newName")
-            : yList.set("new", newItem.newName);
+            ? yJournal.delete("newName")
+            : yJournal.set("name", newItem.newName);
 
           newItem.newBody === undefined || newItem.newBody === ""
-            ? yList.delete("newBody")
-            : yList.set("body", newItem.newBody);
+            ? yJournal.delete("newBody")
+            : yJournal.set("body", newItem.newBody);
 
           newItem.isEditing === undefined
-            ? yList.delete("isEditing")
-            : yList.set("isEditing", newItem.isEditing);
+            ? yJournal.delete("isEditing")
+            : yJournal.set("isEditing", newItem.isEditing);
         });
 
         syncDocumentToServer($liveView);
@@ -82,8 +80,8 @@
   };
 
   const deleteItem: DeleteItem = (item) => {
-    for (const yList of $yJournals) {
-      if (yList.get("id") === item.id) {
+    for (const yJournal of $yJournals) {
+      if (yJournal.get("id") === item.id) {
         $yJournals.doc.transact(() => {
           $yJournals.delete(index);
         });
@@ -157,20 +155,20 @@
 
   // Keep selected journal name and items in sync with selected journal id _______________________________
 
-  function setSelectedListName(journalId: string) {
+  function setSelectedJournalName(journalId: string) {
     return $journals.find((journal) => journal.id === journalId)?.name ?? "";
   }
-  $: selectedListName = setSelectedListName($selectedListId);
-  $: selectedJournal = $journals.find((item) => item.id === $selectedListId);
+  $: selectedJournalName = setSelectedJournalName($selectedJournalId);
+  $: selectedJournal = $journals.find((item) => item.id === $selectedJournalId);
 </script>
 
 {#if $itemToProcessId && $openedMenuId === confirmDeletionModalId}
   <ConfirmDeletionModal journalId={$itemToProcessId} {menuClass} {deleteItem} />
 {/if}
 
-{#if $selectedListId}
+{#if $selectedJournalId}
   <ItemsContainer
-    title={selectedListName}
+    title={selectedJournalName}
     totalCount={0}
     uncompletedCount={0}
     bind:isDropdownOpened={$isJournalOpened}
@@ -180,8 +178,8 @@
   </ItemsContainer>
 {:else}
   <NewItemForm
-    addItemCallback={addList}
-    bind:value={$newList}
+    addItemCallback={addJournal}
+    bind:value={$newJournal}
     placeholder="Enter journal title"
     submitButtonText="Create"
     submitButtonTitle="Create new journal."
@@ -191,7 +189,7 @@
   <ItemsContainer
     title="Journals"
     totalCount={0}
-    bind:isDropdownOpened={$isListsOpened}
+    bind:isDropdownOpened={$isJournalsOpened}
     {isScrollPositionRestored}
   >
     <JournalSelector

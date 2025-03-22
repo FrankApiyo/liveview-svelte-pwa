@@ -8,7 +8,12 @@
   import { onKeydown } from "$lib/actions/onKeydown";
   import { useHasTouchScreen } from "$lib/hooks/useHasTouchScreen";
 
-  import { itemToProcessId, openedMenuId, selectedListId, urlHash } from "$stores/clientOnlyState";
+  import {
+    itemToProcessId,
+    openedMenuId,
+    selectedJournalId,
+    urlHash,
+  } from "$stores/clientOnlyState";
   import { journals, yJournals } from "$stores/crdtState";
 
   import DragHandle from "./DragHandle.svelte";
@@ -38,34 +43,34 @@
   function updateUiOnFinalize(newItems: Journal[]) {
     const oldIndex = $yJournals.toArray().findIndex((yMap) => yMap.get("id") === $itemToProcessId);
 
-    const oldList = $yJournals.get(oldIndex);
-    const newList = new Y.Map<string>();
+    const oldJournal = $yJournals.get(oldIndex);
+    const newJournal = new Y.Map<string>();
 
-    let oldListId = oldList.get("id");
-    if (typeof oldListId !== "string") {
+    let oldJournalId = oldJournal.get("id");
+    if (typeof oldJournalId !== "string") {
       throw new Error("The journal ID must be a string.");
     }
 
-    let oldListName = oldList.get("name");
-    if (typeof oldListName !== "string") {
+    let oldJournalName = oldJournal.get("name");
+    if (typeof oldJournalName !== "string") {
       throw new Error("The journal name must be a string.");
     }
 
-    let oldListBody = oldList.get("body");
-    if (typeof oldListBody !== "string") {
+    let oldJournalBody = oldJournal.get("body");
+    if (typeof oldJournalBody !== "string") {
       throw new Error("The journal name must be a string.");
     }
 
-    newList.set("id", oldListId);
-    newList.set("name", oldListName);
-    newList.set("body", oldListBody);
+    newJournal.set("id", oldJournalId);
+    newJournal.set("name", oldJournalName);
+    newJournal.set("body", oldJournalBody);
 
     $yJournals.doc.transact(() => {
       $yJournals.delete(oldIndex);
 
       // Move the journal to the new position.
       const index = newItems.findIndex((journal) => journal.id === $itemToProcessId);
-      $yJournals.insert(index, [newList]);
+      $yJournals.insert(index, [newJournal]);
     });
   }
 </script>
@@ -76,7 +81,7 @@
     focus:outline-none focus-visible:ring ring-accent ring-offset-1 ring-offset-base-100
   "
   style:visibility={isScrollPositionRestored ? "visible" : "hidden"}
-  aria-label="Lists"
+  aria-label="Journals"
   use:dndzone={{
     items: $journals,
     flipDurationMs,
@@ -112,7 +117,7 @@
           class:hover:bg-base-200={!hasTouchScreen}
           on:click={() => {
             $urlHash = "journalId";
-            $selectedListId = journal.id;
+            $selectedJournalId = journal.id;
             history.pushState({}, "", `/app#${journal.id}`);
             window.scrollTo(0, 0);
           }}
@@ -127,7 +132,13 @@
         </button>
 
         <div class="flex gap-1">
-          <OptionsMenu item={journal} {updateItem} {deleteItem} {menuClass} {confirmDeletionModalId} />
+          <OptionsMenu
+            item={journal}
+            {updateItem}
+            {deleteItem}
+            {menuClass}
+            {confirmDeletionModalId}
+          />
 
           <DragHandle bind:dragDisabled itemId={journal.id} />
         </div>

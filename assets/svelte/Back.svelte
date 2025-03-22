@@ -2,6 +2,7 @@
   import { ArrowLeft } from "lucide-svelte";
 
   import { showTopBar } from "$lib/topbar";
+  import SyncStatusBadge from "./SyncStatusBadge.svelte";
 
   import type { Live } from "live_svelte";
 
@@ -46,4 +47,5 @@
   >
     <ArrowLeft class="h-10 w-10" strokeWidth={1.75} />
   </button>
+  <SyncStatusBadge />
 {/if}

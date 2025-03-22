@@ -39,10 +39,10 @@
   import { onMount } from "svelte";
 
   import {
-    isListsOpened,
+    isJournalsOpened,
     isJournalOpened,
     itemToProcessId,
-    newList,
+    newJournal,
     newJournal,
     openedMenuId,
   } from "$stores/clientOnlyState";
@@ -52,14 +52,22 @@
   onMount(() => {
     // Sync client state stores with sessionStorage on startup. This is mainly
     // to restore UI if the browser unexpectedly refreshes.
-    $isListsOpened = getParsedValueFromSessionStorage("isListsOpened", "boolean", $isListsOpened);
-    $isJournalOpened = getParsedValueFromSessionStorage("isJournalOpened", "boolean", $isJournalOpened);
+    $isJournalsOpened = getParsedValueFromSessionStorage(
+      "isJournalsOpened",
+      "boolean",
+      $isJournalsOpened,
+    );
+    $isJournalOpened = getParsedValueFromSessionStorage(
+      "isJournalOpened",
+      "boolean",
+      $isJournalOpened,
+    );
     $itemToProcessId = getParsedValueFromSessionStorage(
       "itemToProcessId",
       "string",
       $itemToProcessId,
     );
-    $newList = getParsedValueFromSessionStorage("newList", "string", $newList);
+    $newJournal = getParsedValueFromSessionStorage("newJournal", "string", $newJournal);
     $newJournal = getParsedValueFromSessionStorage("newJournal", "string", $newJournal);
     $openedMenuId = getParsedValueFromSessionStorage("openedMenuId", "string", $openedMenuId);
 
@@ -70,10 +78,10 @@
 
   // Keep sessionStorage in sync with client state stores.
   $: if (isClientStateRestored) {
-    sessionStorage.setItem("isListsOpened", JSON.stringify($isListsOpened));
+    sessionStorage.setItem("isJournalsOpened", JSON.stringify($isJournalsOpened));
     sessionStorage.setItem("isJournalOpened", JSON.stringify($isJournalOpened));
     sessionStorage.setItem("itemToProcessId", JSON.stringify($itemToProcessId));
-    sessionStorage.setItem("newList", JSON.stringify($newList));
+    sessionStorage.setItem("newJournal", JSON.stringify($newJournal));
     sessionStorage.setItem("newJournal", JSON.stringify($newJournal));
     sessionStorage.setItem("openedMenuId", JSON.stringify($openedMenuId));
   }
