@@ -105,7 +105,7 @@
 </script>
 
 <form
-  class="{menuClass} w-full"
+  class="{menuClass} w-full h-full"
   on:submit|preventDefault={handleSubmit}
   use:clickOutside={handleSubmit}
   use:focusTrap={{
@@ -113,26 +113,16 @@
     onEscape: handleEscape,
   }}
 >
-  <div class="w-full join">
     <textarea
       data-focusindex="0"
       class="
-        input input-bordered border-neutral w-full join-item
+        input input-bordered border-neutral w-full join-item h-full
         focus:outline-none focus:ring-1 focus:ring-accent focus:ring-inset
       "
       placeholder="Start writing your journal entry here..."
       bind:value={newBody}
       on:input={handleInput}
     />
-
-    <button
-      data-focusindex="1"
-      class="btn btn-accent join-item border border-neutral"
-      aria-label="Update item."
-    >
-      <Check class="w-5 h-5" />
-    </button>
-  </div>
 
   {#if error}
     <p style="word-break: break-word;" class="text-error mt-1 text-sm" in:fly={{ y: -10 }}>

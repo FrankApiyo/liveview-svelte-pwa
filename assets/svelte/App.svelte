@@ -54,7 +54,7 @@
   {#if $urlHash === "about"}
     <AppInfo />
   {:else}
-    <div class="max-w-2xl mx-auto px-2 md:p-0">
+    <div class="max-w-2xl mx-auto px-2 md:p-0 h-[85vh]">
       <TodoApp {menuClass} {isScrollPositionRestored} />
     </div>
   {/if}

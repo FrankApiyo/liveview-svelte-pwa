@@ -41,7 +41,7 @@
 </script>
 
 <div
-  class="collapse border border-neutral mt-2 mb-20 overflow-visible"
+  class="collapse border border-neutral mt-2 mb-20 overflow-visible h-full"
   class:collapse-open={isDropdownOpened}
   style:visibility={isScrollPositionRestored ? "visible" : "hidden"}
 >

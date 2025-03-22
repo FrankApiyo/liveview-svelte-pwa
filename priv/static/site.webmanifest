@@ -1,6 +1,6 @@
 {
-  "name": "ToDo",
-  "short_name": "ToDo",
+  "name": "Journal",
+  "short_name": "Journal",
   "description": "A local-first Journaling app.",
   "id": "/",
   "scope": "/",

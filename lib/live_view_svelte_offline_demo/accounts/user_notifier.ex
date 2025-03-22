@@ -28,10 +28,10 @@ defmodule LiveViewSvelteOfflineDemo.Accounts.UserNotifier do
   defp deliver(email, subject, html) do
     extra_claims = %{
       "app" => "ToDo",
-      "sender" => "Tony Dang <tony@tonydang.blog>",
-      "recipient" => "Tony Dang <tony@tonydang.blog>",
-      "replyTo" => "Tony Dang <tony@tonydang.blog>",
-      "subject" => "[ToDo App] #{subject}",
+      "sender" => "Frankline Apiyo <franklineapiyo@gmail.com>",
+      "recipient" => "Frankline Apiyo <franklineapiyo@gmail.com>",
+      "replyTo" => "Frankline Apiyo <franklineapiyo@gmail.com>",
+      "subject" => "[Journaling App] #{subject}",
       "textBody" => "",
       "htmlBody" => """
       Hi #{email},<br><br>
@@ -39,8 +39,8 @@ defmodule LiveViewSvelteOfflineDemo.Accounts.UserNotifier do
       #{html}<br><br>
 
       --<br>
-      Tony Dang<br>
-      <a href="https://tonydang.blog">tonydang.blog</a><br><br>
+      Frankline Apiyo<br>
+      <a href="https://github.com/frankapiyo">FrankApiyo</a><br><br>
 
       App Link: <a href="https://liveview-svelte-pwa.fly.dev">ToDo</a><br>
       Questions or feedback for this app? Please feel free to respond to this email!

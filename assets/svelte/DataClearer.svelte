@@ -2,7 +2,7 @@
   import { privateAssets } from "$lib/assets";
   import { requestAssetDeletion } from "./ServiceWorker.svelte";
 
-  export const indexedDBName = "ToDo";
+  export const indexedDBName = "Journaling";
 
   export function clearUserData() {
     // Clear client storage.
