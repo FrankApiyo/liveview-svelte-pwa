@@ -9,13 +9,13 @@
   import { useHasTouchScreen } from "$lib/hooks/useHasTouchScreen";
 
   import { itemToProcessId, openedMenuId, selectedListId, urlHash } from "$stores/clientOnlyState";
-  import { todoLists, yJournals } from "$stores/crdtState";
+  import { journals, yJournals } from "$stores/crdtState";
 
   import DragHandle from "./DragHandle.svelte";
   import EditForm from "./EditForm.svelte";
   import OptionsMenu from "./OptionsMenu.svelte";
 
-  import type { TodoList } from "$stores/crdtState";
+  import type { Journal } from "$stores/crdtState";
   import type { DeleteItem, DndHandler, UpdateItem } from "./TodoApp.svelte";
 
   export let updateItem: UpdateItem;
@@ -31,11 +31,11 @@
 
   const hasTouchScreen = useHasTouchScreen();
 
-  function updateUiOnConsider(newItems: TodoList[]) {
-    $todoLists = newItems;
+  function updateUiOnConsider(newItems: Journal[]) {
+    $journals = newItems;
   }
 
-  function updateUiOnFinalize(newItems: TodoList[]) {
+  function updateUiOnFinalize(newItems: Journal[]) {
     const oldIndex = $yJournals.toArray().findIndex((yMap) => yMap.get("id") === $itemToProcessId);
 
     const oldList = $yJournals.get(oldIndex);
@@ -58,7 +58,7 @@
 
     newList.set("id", oldListId);
     newList.set("name", oldListName);
-    newList.set("body", oldListBody)
+    newList.set("body", oldListBody);
 
     $yJournals.doc.transact(() => {
       $yJournals.delete(oldIndex);
@@ -78,7 +78,7 @@
   style:visibility={isScrollPositionRestored ? "visible" : "hidden"}
   aria-label="Lists"
   use:dndzone={{
-    items: $todoLists,
+    items: $journals,
     flipDurationMs,
     dragDisabled,
     morphDisabled: true,
@@ -88,7 +88,7 @@
   on:consider={(event) => handleConsider(event, updateUiOnConsider)}
   on:finalize={(event) => handleFinalize(event, updateUiOnFinalize)}
 >
-  {#each $todoLists as list (list.id)}
+  {#each $journals as list (list.id)}
     <li
       class="
         flex items-center justify-between rounded-lg
@@ -120,9 +120,7 @@
           <span style="word-break: break-word;">
             {list.name}
 
-            <span class="badge badge-xs transition-none p-2">
-              0 / 0
-            </span>
+            <span class="badge badge-xs transition-none p-2"> 0 / 0 </span>
           </span>
 
           <ChevronRight class="shrink-0 w-4 h-4" />

@@ -1,12 +1,9 @@
 <script lang="ts" context="module">
-  export type DeleteItem = (item: TodoList | TodoItem) => void;
+  export type DeleteItem = (item: Journal) => void;
 
-  export type DndHandler = (
-    event: CustomEvent,
-    updateUi: (newItems: TodoList[] | TodoItem[]) => void,
-  ) => void;
+  export type DndHandler = (event: CustomEvent, updateUi: (newItems: Journal[]) => void) => void;
 
-  export type UpdateItem = (newItem: TodoList | TodoItem) => void;
+  export type UpdateItem = (newItem: Journal) => void;
 </script>
 
 <script lang="ts">
@@ -22,7 +19,7 @@
     openedMenuId,
     selectedListId,
   } from "$stores/clientOnlyState";
-  import { todoLists, yJournals } from "$stores/crdtState";
+  import { journals, yJournals } from "$stores/crdtState";
   import { liveView } from "$stores/liveViewSocket";
 
   import { syncDocumentToServer } from "./StateManagement.svelte";
@@ -32,7 +29,7 @@
   import JournalEditor from "./JournalEditor.svelte";
   import TodoListSelector from "./TodoListSelector.svelte";
 
-  import type { TodoList, TodoItem } from "$stores/crdtState";
+  import type { Journal } from "$stores/crdtState";
 
   export let menuClass: string;
   export let isScrollPositionRestored: boolean;
@@ -133,7 +130,7 @@
   /**
    * Helper function to remove any items with duplicate ids from the items array.
    */
-  function filterDuplicates(items: TodoList[] | TodoItem[]) {
+  function filterDuplicates(items: Journal[]) {
     const ids: string[] = [];
 
     return items.filter((item) => {
@@ -161,10 +158,10 @@
   // Keep selected list name and items in sync with selected list id _______________________________
 
   function setSelectedListName(listId: string) {
-    return $todoLists.find((list) => list.id === listId)?.name ?? "";
+    return $journals.find((list) => list.id === listId)?.name ?? "";
   }
   $: selectedListName = setSelectedListName($selectedListId);
-  $: selectedJournal = $todoLists.find((item) => item.id === $selectedListId);
+  $: selectedJournal = $journals.find((item) => item.id === $selectedListId);
 </script>
 
 {#if $itemToProcessId && $openedMenuId === confirmDeletionModalId}

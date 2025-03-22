@@ -56,8 +56,8 @@
   }
 
   export async function syncDocumentToServer(live: Live) {
-    // Set the todoLists stores so that the UI is updated.
-    todoLists.set(get(yJournals).toJSON());
+    // Set the journals stores so that the UI is updated.
+    journals.set(get(yJournals).toJSON());
 
     notifyUserSyncingIsInProgress();
 
@@ -83,7 +83,7 @@
   import * as Y from "yjs";
 
   import { selectedListId, urlHash } from "$stores/clientOnlyState";
-  import { todoLists, yJournals } from "$stores/crdtState";
+  import { journals, yJournals } from "$stores/crdtState";
   import { liveView, serverDocument } from "$stores/liveViewSocket";
   import { syncState } from "$stores/syncState";
 
@@ -103,7 +103,7 @@
     indexedDbProvider.on("synced", () => {
       // Sync stores with IndexedDB state.
       $yJournals = stateMap.get("lists");
-      $todoLists = $yJournals ? $yJournals.toJSON() : [];
+      $journals = $yJournals ? $yJournals.toJSON() : [];
 
       isSyncedToIndexedDb = true;
     });
@@ -135,7 +135,7 @@
     Y.applyUpdate(doc, toUint8Array(document));
     // TODO: we need to change lists to journals
     $yJournals = stateMap.get("lists");
-    $todoLists = $yJournals.toJSON();
+    $journals = $yJournals.toJSON();
 
     // When coming back online, send state to server so it can be broadcasted.
     if (event === "request_server_document") {
@@ -184,7 +184,7 @@
 
       default:
         const listId = hash.replace("#", "");
-        const list = $todoLists.find((list) => list.id === listId);
+        const list = $journals.find((list) => list.id === listId);
         if (list) {
           $urlHash = "listId";
           $selectedListId = listId;
@@ -201,7 +201,7 @@
 
   // Sync urlHash and selectedListId with url on app start.
   // Note: This needs to happen after syncing to indexedDb
-  // so that $todoLists is populated.
+  // so that $journals is populated.
   $: if (isSyncedToIndexedDb) syncAppStateWithUrl();
 
   // Set scroll restoration so page nav via back/forward buttons works as expected.

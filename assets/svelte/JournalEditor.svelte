@@ -7,10 +7,10 @@
 
   import { openedMenuId } from "$stores/clientOnlyState";
 
-  import type { TodoList, TodoItem } from "$stores/crdtState";
+  import type { Journal } from "$stores/crdtState";
   import type { UpdateItem } from "./TodoApp.svelte";
 
-  export let item: TodoList | TodoItem;
+  export let item: Journal;
   export let updateItem: UpdateItem;
   export let menuClass: string;
 
@@ -22,10 +22,10 @@
    */
   function commitEdits() {
     updateItem({
-        id: item.id,
-        body: newBody,
-        name: item.name,
-      });
+      id: item.id,
+      body: newBody,
+      name: item.name,
+    });
 
     $openedMenuId = "";
   }
@@ -35,10 +35,10 @@
    */
   function discardEdits() {
     updateItem({
-        id: item.id,
-        name: item.name,
-        body: item.body,
-      });
+      id: item.id,
+      name: item.name,
+      body: item.body,
+    });
 
     $openedMenuId = "";
   }

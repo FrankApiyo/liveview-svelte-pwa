@@ -5,7 +5,7 @@
   import { clickOutside } from "$lib/actions/clickOutside";
 
   import { itemToProcessId, openedMenuId } from "$stores/clientOnlyState";
-  import { todoLists } from "$stores/crdtState";
+  import { journals } from "$stores/crdtState";
 
   import type { DeleteItem } from "./TodoApp.svelte";
 
@@ -56,7 +56,7 @@
         data-focusindex="1"
         class="btn btn-error border border-neutral"
         on:click={() => {
-          const list = $todoLists.find((list) => list.id === listId);
+          const list = $journals.find((list) => list.id === listId);
           deleteItem(list);
           dialog.close();
         }}

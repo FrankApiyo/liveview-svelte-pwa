@@ -6,10 +6,10 @@
 
   import { itemToProcessId, openedMenuId } from "$stores/clientOnlyState";
 
-  import type { TodoList, TodoItem } from "$stores/crdtState";
+  import type { Journal } from "$stores/crdtState";
   import type { UpdateItem, DeleteItem } from "./TodoApp.svelte";
 
-  export let item: TodoList | TodoItem;
+  export let item: Journal;
   export let updateItem: UpdateItem;
   export let deleteItem: DeleteItem;
   export let menuClass: string;
