@@ -38,12 +38,12 @@
   const flipDurationMs = 100;
   let dragDisabled = true;
 
-  // Journal list handlers ___________________________________________________________________________
+  // Journal journal handlers ___________________________________________________________________________
   function addList() {
-    const list = new Y.Map<string>();
-    list.set("id", crypto.randomUUID());
-    list.set("name", $newList);
-    $yJournals.unshift([list]);
+    const journal = new Y.Map<string>();
+    journal.set("id", crypto.randomUUID());
+    journal.set("name", $newList);
+    $yJournals.unshift([journal]);
 
     $newList = "";
 
@@ -54,7 +54,7 @@
     return;
   }
 
-  // Shared handlers for both todo lists and todo items ____________________________________________
+  // Shared handlers for both todo journals and todo items ____________________________________________
 
   const updateItem: UpdateItem = (newItem) => {
     for (const yList of $yJournals) {
@@ -98,7 +98,7 @@
   // Drag and drop handlers ________________________________________________________________________
 
   const handleConsider: DndHandler = (event, updateUiOnConsider) => {
-    // Update the items list in the UI.
+    // Update the items journal in the UI.
     const newItems = filterDuplicates(event.detail.items);
     updateUiOnConsider(newItems);
 
@@ -110,7 +110,7 @@
   };
 
   const handleFinalize: DndHandler = (event, updateUiOnFinalize) => {
-    // Update the items list in the UI.
+    // Update the items journal in the UI.
     // TODO: Is it necessary to check that the id is reset back from the
     // svelte-dnd-action placeholder id? If the id is not reset, then
     // it is possible to have duplicate ids which will crash the app.
@@ -155,17 +155,17 @@
     }
   }
 
-  // Keep selected list name and items in sync with selected list id _______________________________
+  // Keep selected journal name and items in sync with selected journal id _______________________________
 
-  function setSelectedListName(listId: string) {
-    return $journals.find((list) => list.id === listId)?.name ?? "";
+  function setSelectedListName(journalId: string) {
+    return $journals.find((journal) => journal.id === journalId)?.name ?? "";
   }
   $: selectedListName = setSelectedListName($selectedListId);
   $: selectedJournal = $journals.find((item) => item.id === $selectedListId);
 </script>
 
 {#if $itemToProcessId && $openedMenuId === confirmDeletionModalId}
-  <ConfirmDeletionModal listId={$itemToProcessId} {menuClass} {deleteItem} />
+  <ConfirmDeletionModal journalId={$itemToProcessId} {menuClass} {deleteItem} />
 {/if}
 
 {#if $selectedListId}
@@ -184,7 +184,7 @@
     bind:value={$newList}
     placeholder="Enter journal title"
     submitButtonText="Create"
-    submitButtonTitle="Create new list."
+    submitButtonTitle="Create new journal."
     {isScrollPositionRestored}
   />
 

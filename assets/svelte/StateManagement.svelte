@@ -102,7 +102,7 @@
     indexedDbProvider = new IndexeddbPersistence(indexedDBName, doc);
     indexedDbProvider.on("synced", () => {
       // Sync stores with IndexedDB state.
-      $yJournals = stateMap.get("lists");
+      $yJournals = stateMap.get("journals");
       $journals = $yJournals ? $yJournals.toJSON() : [];
 
       isSyncedToIndexedDb = true;
@@ -118,7 +118,7 @@
       // Create new Yjs arrays for journals if they don't exist.
       if (!$yJournals) {
         $yJournals = new Y.Array();
-        stateMap.set("lists", $yJournals);
+        stateMap.set("journals", $yJournals);
       }
 
       // Send request to server to create new document from client state.
@@ -133,8 +133,8 @@
 
     // If document state exists on server, merge it with client state.
     Y.applyUpdate(doc, toUint8Array(document));
-    // TODO: we need to change lists to journals
-    $yJournals = stateMap.get("lists");
+    // TODO: we need to change journals to journals
+    $yJournals = stateMap.get("journals");
     $journals = $yJournals.toJSON();
 
     // When coming back online, send state to server so it can be broadcasted.
@@ -143,7 +143,7 @@
     }
 
     // Update url if needed. This is for the case where an update deletes a
-    // list that is currently being viewed.
+    // journal that is currently being viewed.
     syncAppStateWithUrl();
   }
 
@@ -183,13 +183,13 @@
         break;
 
       default:
-        const listId = hash.replace("#", "");
-        const list = $journals.find((list) => list.id === listId);
-        if (list) {
-          $urlHash = "listId";
-          $selectedListId = listId;
+        const journalId = hash.replace("#", "");
+        const journal = $journals.find((journal) => journal.id === journalId);
+        if (journal) {
+          $urlHash = "journalId";
+          $selectedListId = journalId;
           history.replaceState({}, "", "/app");
-          history.pushState({}, "", `/app#${listId}`);
+          history.pushState({}, "", `/app#${journalId}`);
         } else {
           $urlHash = "";
           $selectedListId = "";

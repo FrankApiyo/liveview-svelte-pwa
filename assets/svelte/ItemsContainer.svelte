@@ -53,7 +53,7 @@
       <span
         title={uncompletedCount !== undefined
           ? `${uncompletedCount} Uncompleted / ${totalCount} Total`
-          : `${totalCount} Lists`}
+          : `${totalCount} Journals`}
         class="badge badge-neutral shrink-0"
       >
         {uncompletedCount !== undefined ? `${uncompletedCount} / ${totalCount}` : totalCount}

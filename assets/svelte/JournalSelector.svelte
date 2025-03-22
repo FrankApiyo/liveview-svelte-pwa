@@ -43,17 +43,17 @@
 
     let oldListId = oldList.get("id");
     if (typeof oldListId !== "string") {
-      throw new Error("The list ID must be a string.");
+      throw new Error("The journal ID must be a string.");
     }
 
     let oldListName = oldList.get("name");
     if (typeof oldListName !== "string") {
-      throw new Error("The list name must be a string.");
+      throw new Error("The journal name must be a string.");
     }
 
     let oldListBody = oldList.get("body");
     if (typeof oldListBody !== "string") {
-      throw new Error("The list name must be a string.");
+      throw new Error("The journal name must be a string.");
     }
 
     newList.set("id", oldListId);
@@ -63,8 +63,8 @@
     $yJournals.doc.transact(() => {
       $yJournals.delete(oldIndex);
 
-      // Move the list to the new position.
-      const index = newItems.findIndex((list) => list.id === $itemToProcessId);
+      // Move the journal to the new position.
+      const index = newItems.findIndex((journal) => journal.id === $itemToProcessId);
       $yJournals.insert(index, [newList]);
     });
   }
@@ -88,21 +88,21 @@
   on:consider={(event) => handleConsider(event, updateUiOnConsider)}
   on:finalize={(event) => handleFinalize(event, updateUiOnFinalize)}
 >
-  {#each $journals as list (list.id)}
+  {#each $journals as journal (journal.id)}
     <li
       class="
         flex items-center justify-between rounded-lg
         focus:outline-none focus-visible:ring ring-accent ring-offset-1 ring-offset-base-100
       "
-      aria-label={list.name}
+      aria-label={journal.name}
       animate:flip={{ duration: flipDurationMs }}
-      use:onKeydown={(event) => handleDragKeyDown(event, list.id)}
+      use:onKeydown={(event) => handleDragKeyDown(event, journal.id)}
     >
-      {#if list.isEditing}
-        <EditForm item={list} {updateItem} {menuClass} />
+      {#if journal.isEditing}
+        <EditForm item={journal} {updateItem} {menuClass} />
       {:else}
         <button
-          title="Click to view list."
+          title="Click to view journal."
           class="
             flex items-center gap-1 grow px-2 py-1.5 mr-5 rounded-lg
             text-lg text-left active:bg-base-300
@@ -111,14 +111,14 @@
           class:pointer-events-none={$openedMenuId}
           class:hover:bg-base-200={!hasTouchScreen}
           on:click={() => {
-            $urlHash = "listId";
-            $selectedListId = list.id;
-            history.pushState({}, "", `/app#${list.id}`);
+            $urlHash = "journalId";
+            $selectedListId = journal.id;
+            history.pushState({}, "", `/app#${journal.id}`);
             window.scrollTo(0, 0);
           }}
         >
           <span style="word-break: break-word;">
-            {list.name}
+            {journal.name}
 
             <span class="badge badge-xs transition-none p-2"> 0 / 0 </span>
           </span>
@@ -127,9 +127,9 @@
         </button>
 
         <div class="flex gap-1">
-          <OptionsMenu item={list} {updateItem} {deleteItem} {menuClass} {confirmDeletionModalId} />
+          <OptionsMenu item={journal} {updateItem} {deleteItem} {menuClass} {confirmDeletionModalId} />
 
-          <DragHandle bind:dragDisabled itemId={list.id} />
+          <DragHandle bind:dragDisabled itemId={journal.id} />
         </div>
       {/if}
     </li>

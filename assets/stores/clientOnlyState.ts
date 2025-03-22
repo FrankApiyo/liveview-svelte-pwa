@@ -8,4 +8,4 @@ export const newJournal = writable<string>("");
 export const openedMenuId = writable<string>("");
 
 export const selectedListId = writable<string>("");
-export const urlHash = writable<"" | "about" | "listId">("");
+export const urlHash = writable<"" | "about" | "journalId">("");

@@ -21,7 +21,7 @@
 
     undoManager.on("stack-item-popped", (event) => {
       console.log("pop event:", event);
-      // TODO: track current selected list and URL hash?
+      // TODO: track current selected journal and URL hash?
     });
   }
 </script>

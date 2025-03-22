@@ -9,7 +9,7 @@
 
   import type { DeleteItem } from "./JournalApp.svelte";
 
-  export let listId: string;
+  export let journalId: string;
   export let menuClass: string;
   export let deleteItem: DeleteItem;
 
@@ -56,8 +56,8 @@
         data-focusindex="1"
         class="btn btn-error border border-neutral"
         on:click={() => {
-          const list = $journals.find((list) => list.id === listId);
-          deleteItem(list);
+          const journal = $journals.find((journal) => journal.id === journalId);
+          deleteItem(journal);
           dialog.close();
         }}
       >
