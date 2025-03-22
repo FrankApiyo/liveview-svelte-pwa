@@ -12,10 +12,10 @@
 
   import {
     isListsOpened,
-    isTodoOpened,
+    isJournalOpened,
     itemToProcessId,
     newList,
-    newTodo,
+    newJournal,
     openedMenuId,
     selectedListId,
   } from "$stores/clientOnlyState";
@@ -27,7 +27,7 @@
   import ItemsContainer from "./ItemsContainer.svelte";
   import NewItemForm from "./NewItemForm.svelte";
   import JournalEditor from "./JournalEditor.svelte";
-  import TodoListSelector from "./TodoListSelector.svelte";
+  import JournalSelector from "./JournalSelector.svelte";
 
   import type { Journal } from "$stores/crdtState";
 
@@ -173,7 +173,7 @@
     title={selectedListName}
     totalCount={0}
     uncompletedCount={0}
-    bind:isDropdownOpened={$isTodoOpened}
+    bind:isDropdownOpened={$isJournalOpened}
     {isScrollPositionRestored}
   >
     <JournalEditor item={selectedJournal} {updateItem} {menuClass} />
@@ -194,7 +194,7 @@
     bind:isDropdownOpened={$isListsOpened}
     {isScrollPositionRestored}
   >
-    <TodoListSelector
+    <JournalSelector
       {updateItem}
       {deleteItem}
       {handleConsider}

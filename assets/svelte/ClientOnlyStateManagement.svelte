@@ -40,10 +40,10 @@
 
   import {
     isListsOpened,
-    isTodoOpened,
+    isJournalOpened,
     itemToProcessId,
     newList,
-    newTodo,
+    newJournal,
     openedMenuId,
   } from "$stores/clientOnlyState";
 
@@ -53,14 +53,14 @@
     // Sync client state stores with sessionStorage on startup. This is mainly
     // to restore UI if the browser unexpectedly refreshes.
     $isListsOpened = getParsedValueFromSessionStorage("isListsOpened", "boolean", $isListsOpened);
-    $isTodoOpened = getParsedValueFromSessionStorage("isTodoOpened", "boolean", $isTodoOpened);
+    $isJournalOpened = getParsedValueFromSessionStorage("isJournalOpened", "boolean", $isJournalOpened);
     $itemToProcessId = getParsedValueFromSessionStorage(
       "itemToProcessId",
       "string",
       $itemToProcessId,
     );
     $newList = getParsedValueFromSessionStorage("newList", "string", $newList);
-    $newTodo = getParsedValueFromSessionStorage("newTodo", "string", $newTodo);
+    $newJournal = getParsedValueFromSessionStorage("newJournal", "string", $newJournal);
     $openedMenuId = getParsedValueFromSessionStorage("openedMenuId", "string", $openedMenuId);
 
     // Let offline-svelte know that the client state has been restored in order
@@ -71,10 +71,10 @@
   // Keep sessionStorage in sync with client state stores.
   $: if (isClientStateRestored) {
     sessionStorage.setItem("isListsOpened", JSON.stringify($isListsOpened));
-    sessionStorage.setItem("isTodoOpened", JSON.stringify($isTodoOpened));
+    sessionStorage.setItem("isJournalOpened", JSON.stringify($isJournalOpened));
     sessionStorage.setItem("itemToProcessId", JSON.stringify($itemToProcessId));
     sessionStorage.setItem("newList", JSON.stringify($newList));
-    sessionStorage.setItem("newTodo", JSON.stringify($newTodo));
+    sessionStorage.setItem("newJournal", JSON.stringify($newJournal));
     sessionStorage.setItem("openedMenuId", JSON.stringify($openedMenuId));
   }
 </script>

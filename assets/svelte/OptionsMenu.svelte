@@ -7,13 +7,13 @@
   import { itemToProcessId, openedMenuId } from "$stores/clientOnlyState";
 
   import type { Journal } from "$stores/crdtState";
-  import type { UpdateItem, DeleteItem } from "./TodoApp.svelte";
+  import type { UpdateItem, DeleteItem } from "./JournalApp.svelte";
 
   export let item: Journal;
   export let updateItem: UpdateItem;
   export let deleteItem: DeleteItem;
   export let menuClass: string;
-  export let moveTodoMenuId = undefined;
+  export let moveJournalMenuItem = undefined;
   export let confirmDeletionModalId = undefined;
 
   let focusFirstElement = false;
@@ -76,7 +76,7 @@
         </button>
       </li>
 
-      {#if moveTodoMenuId}
+      {#if moveJournalMenuItem}
         <li>
           <button
             data-focusindex="1"
@@ -87,7 +87,7 @@
             on:click={(e) => {
               e.stopPropagation(); // Prevent event from bubbling up to ClickOutsideClassHandler.
               $itemToProcessId = item.id;
-              $openedMenuId = moveTodoMenuId;
+              $openedMenuId = moveJournalMenuItem;
             }}
           >
             <MoveRight class="w-4 h-4" />

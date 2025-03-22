@@ -8,7 +8,7 @@
   import { openedMenuId } from "$stores/clientOnlyState";
 
   import type { Journal } from "$stores/crdtState";
-  import type { UpdateItem } from "./TodoApp.svelte";
+  import type { UpdateItem } from "./JournalApp.svelte";
 
   export let item: Journal;
   export let updateItem: UpdateItem;

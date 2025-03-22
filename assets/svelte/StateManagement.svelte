@@ -115,7 +115,7 @@
     // If no document state exists on server, create a new document from client
     // state and save it to the server.
     if (!document) {
-      // Create new Yjs arrays for lists and todos if they don't exist.
+      // Create new Yjs arrays for journals if they don't exist.
       if (!$yJournals) {
         $yJournals = new Y.Array();
         stateMap.set("lists", $yJournals);

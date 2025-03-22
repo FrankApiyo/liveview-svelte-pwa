@@ -12,7 +12,7 @@
   import StickyHeader from "./StickyHeader.svelte";
   import ThemeSyncManager from "./ThemeSyncManager.svelte";
   import Toast from "./Toast.svelte";
-  import TodoApp from "./TodoApp.svelte";
+  import JournalApp from "./JournalApp.svelte";
   import UpdateAlert from "./UpdateAlert.svelte";
 
   import type { Live } from "live_svelte";
@@ -55,7 +55,7 @@
     <AppInfo />
   {:else}
     <div class="max-w-2xl mx-auto px-2 md:p-0 h-[85vh]">
-      <TodoApp {menuClass} {isScrollPositionRestored} />
+      <JournalApp {menuClass} {isScrollPositionRestored} />
     </div>
   {/if}
 {:else}

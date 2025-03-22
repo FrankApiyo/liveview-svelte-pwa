@@ -7,7 +7,7 @@
   import { itemToProcessId, openedMenuId } from "$stores/clientOnlyState";
   import { journals } from "$stores/crdtState";
 
-  import type { DeleteItem } from "./TodoApp.svelte";
+  import type { DeleteItem } from "./JournalApp.svelte";
 
   export let listId: string;
   export let menuClass: string;

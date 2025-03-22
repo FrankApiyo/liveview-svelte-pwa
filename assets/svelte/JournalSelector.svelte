@@ -16,7 +16,7 @@
   import OptionsMenu from "./OptionsMenu.svelte";
 
   import type { Journal } from "$stores/crdtState";
-  import type { DeleteItem, DndHandler, UpdateItem } from "./TodoApp.svelte";
+  import type { DeleteItem, DndHandler, UpdateItem } from "./JournalApp.svelte";
 
   export let updateItem: UpdateItem;
   export let deleteItem: DeleteItem;
