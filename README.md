@@ -71,3 +71,22 @@ fly launch
 - [CRDTs](https://crdt.tech/) (via [Yjs](https://github.com/yjs/yjs)) to resolve conflicts between
   distributed app states.
 - [Wallaby](https://github.com/elixir-wallaby/wallaby) to run integration tests
+
+## Todos
+
+- [ ] Add some pre-commit hooks to run the following:
+  - [ ] `mix format`
+  - [ ] `npx prettier --write .`
+- [ ] Add APIs
+  - [ ] Add new tables for journals
+  - [ ] Add async tasks to sync to these tables
+  - [ ] Add API authentication
+  - [ ] Add some simplistic RBAC
+- [ ] Visualizations
+  - [ ] Analytical summarization of journal entries
+  - [ ] Word map
+- [ ] Categorization
+- [ ] Deployment & Documentation
+  - [ ] Include scanning with trivy as a sec. measure
+  - [ ] Add bot and webcrawler detection and prevention strategies
+- [ ] More Wallaby tests (nights)
