@@ -22,7 +22,7 @@
     openedMenuId,
     selectedListId,
   } from "$stores/clientOnlyState";
-  import { todoLists, todoItems, yTodoLists, yTodoItems, isTodoItem } from "$stores/crdtState";
+  import { todoLists, todoItems, yJournals, yTodoItems, isTodoItem } from "$stores/crdtState";
   import { liveView } from "$stores/liveViewSocket";
 
   import { syncDocumentToServer } from "./StateManagement.svelte";
@@ -46,7 +46,7 @@
     const list = new Y.Map<string>();
     list.set("id", crypto.randomUUID());
     list.set("name", $newList);
-    $yTodoLists.unshift([list]);
+    $yJournals.unshift([list]);
 
     $newList = "";
 
@@ -60,9 +60,9 @@
   // Shared handlers for both todo lists and todo items ____________________________________________
 
   const updateItem: UpdateItem = (newItem) => {
-    for (const yList of $yTodoLists) {
+    for (const yList of $yJournals) {
       if (yList.get("id") === newItem.id) {
-        $yTodoLists.doc.transact(() => {
+        $yJournals.doc.transact(() => {
           yList.set("name", newItem.name);
 
           newItem.newName === undefined || newItem.newName === ""
@@ -85,10 +85,10 @@
   };
 
   const deleteItem: DeleteItem = (item) => {
-    for (const yList of $yTodoLists) {
+    for (const yList of $yJournals) {
       if (yList.get("id") === item.id) {
-        $yTodoLists.doc.transact(() => {
-          $yTodoLists.delete(index);
+        $yJournals.doc.transact(() => {
+          $yJournals.delete(index);
         });
 
         syncDocumentToServer($liveView);

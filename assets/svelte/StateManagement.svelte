@@ -57,7 +57,7 @@
 
   export async function syncDocumentToServer(live: Live) {
     // Set the todoLists and todoItems stores so that the UI is updated.
-    todoLists.set(get(yTodoLists).toJSON());
+    todoLists.set(get(yJournals).toJSON());
     todoItems.set(get(yTodoItems).toJSON());
 
     notifyUserSyncingIsInProgress();
@@ -84,7 +84,7 @@
   import * as Y from "yjs";
 
   import { selectedListId, urlHash } from "$stores/clientOnlyState";
-  import { todoLists, todoItems, yTodoLists, yTodoItems } from "$stores/crdtState";
+  import { todoLists, todoItems, yJournals, yTodoItems } from "$stores/crdtState";
   import { liveView, serverDocument } from "$stores/liveViewSocket";
   import { syncState } from "$stores/syncState";
 
@@ -103,9 +103,9 @@
     indexedDbProvider = new IndexeddbPersistence(indexedDBName, doc);
     indexedDbProvider.on("synced", () => {
       // Sync stores with IndexedDB state.
-      $yTodoLists = stateMap.get("lists");
+      $yJournals = stateMap.get("lists");
       $yTodoItems = stateMap.get("todos");
-      $todoLists = $yTodoLists ? $yTodoLists.toJSON() : [];
+      $todoLists = $yJournals ? $yJournals.toJSON() : [];
       $todoItems = $yTodoItems ? $yTodoItems.toJSON() : [];
 
       isSyncedToIndexedDb = true;
@@ -119,9 +119,9 @@
     // state and save it to the server.
     if (!document) {
       // Create new Yjs arrays for lists and todos if they don't exist.
-      if (!$yTodoLists && !$yTodoItems) {
-        $yTodoLists = new Y.Array();
-        stateMap.set("lists", $yTodoLists);
+      if (!$yJournals && !$yTodoItems) {
+        $yJournals = new Y.Array();
+        stateMap.set("lists", $yJournals);
 
         $yTodoItems = new Y.Array();
         stateMap.set("todos", $yTodoItems);
@@ -139,9 +139,9 @@
 
     // If document state exists on server, merge it with client state.
     Y.applyUpdate(doc, toUint8Array(document));
-    $yTodoLists = stateMap.get("lists");
+    $yJournals = stateMap.get("lists");
     $yTodoItems = stateMap.get("todos");
-    $todoLists = $yTodoLists.toJSON();
+    $todoLists = $yJournals.toJSON();
     $todoItems = $yTodoItems.toJSON();
 
     // When coming back online, send state to server so it can be broadcasted.

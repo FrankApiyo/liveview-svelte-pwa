@@ -9,7 +9,7 @@
   import { useHasTouchScreen } from "$lib/hooks/useHasTouchScreen";
 
   import { itemToProcessId, openedMenuId, selectedListId, urlHash } from "$stores/clientOnlyState";
-  import { todoLists, todoItems, yTodoLists } from "$stores/crdtState";
+  import { todoLists, todoItems, yJournals } from "$stores/crdtState";
 
   import DragHandle from "./DragHandle.svelte";
   import EditForm from "./EditForm.svelte";
@@ -36,9 +36,9 @@
   }
 
   function updateUiOnFinalize(newItems: TodoList[]) {
-    const oldIndex = $yTodoLists.toArray().findIndex((yMap) => yMap.get("id") === $itemToProcessId);
+    const oldIndex = $yJournals.toArray().findIndex((yMap) => yMap.get("id") === $itemToProcessId);
 
-    const oldList = $yTodoLists.get(oldIndex);
+    const oldList = $yJournals.get(oldIndex);
     const newList = new Y.Map<string>();
 
     let oldListId = oldList.get("id");
@@ -60,12 +60,12 @@
     newList.set("name", oldListName);
     newList.set("body", oldListBody)
 
-    $yTodoLists.doc.transact(() => {
-      $yTodoLists.delete(oldIndex);
+    $yJournals.doc.transact(() => {
+      $yJournals.delete(oldIndex);
 
       // Move the list to the new position.
       const index = newItems.findIndex((list) => list.id === $itemToProcessId);
-      $yTodoLists.insert(index, [newList]);
+      $yJournals.insert(index, [newList]);
     });
   }
 </script>

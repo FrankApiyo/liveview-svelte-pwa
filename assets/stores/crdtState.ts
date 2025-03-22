@@ -27,5 +27,5 @@ export function isTodoItem(item: TodoList | TodoItem): item is TodoItem {
 export const todoLists = writable<TodoList[]>();
 export const todoItems = writable<TodoItem[]>();
 
-export const yTodoLists = writable<YArray<YMap<string | boolean>>>();
+export const yJournals = writable<YArray<YMap<string | boolean>>>();
 export const yTodoItems = writable<YArray<YMap<string | boolean>>>();
