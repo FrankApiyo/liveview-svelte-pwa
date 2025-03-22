@@ -14,10 +14,7 @@ export function useHasTouchScreen(): boolean {
 
   if ("maxTouchPoints" in navigator) {
     hasTouchScreen = navigator.maxTouchPoints > 0;
-  } else if (
-    "msMaxTouchPoints" in navigator &&
-    navigatorExtended.msMaxTouchPoints
-  ) {
+  } else if ("msMaxTouchPoints" in navigator && navigatorExtended.msMaxTouchPoints) {
     hasTouchScreen = navigatorExtended.msMaxTouchPoints > 0;
   } else {
     const mQ = matchMedia?.("(pointer:coarse)");

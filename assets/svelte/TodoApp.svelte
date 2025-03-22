@@ -28,9 +28,7 @@
   import { syncDocumentToServer } from "./StateManagement.svelte";
   import ConfirmDeletionModal from "./ConfirmDeletionModal.svelte";
   import ItemsContainer from "./ItemsContainer.svelte";
-  import MoveTodoMenu from "./MoveTodoMenu.svelte";
   import NewItemForm from "./NewItemForm.svelte";
-  import TodoCheckList from "./TodoCheckList.svelte";
   import JournalEditor from "./JournalEditor.svelte";
   import TodoListSelector from "./TodoListSelector.svelte";
 
@@ -40,12 +38,10 @@
   export let isScrollPositionRestored: boolean;
 
   const confirmDeletionModalId = "confirm-deletion-modal-id";
-  const moveTodoMenuId = "move-todo-menu-id";
   const flipDurationMs = 100;
   let dragDisabled = true;
 
-  // Todo lists handlers ___________________________________________________________________________
-
+  // Journal list handlers ___________________________________________________________________________
   function addList() {
     const list = new Y.Map<string>();
     list.set("id", crypto.randomUUID());
@@ -57,159 +53,50 @@
     syncDocumentToServer($liveView);
   }
 
-  // Todo items handlers ___________________________________________________________________________
-
-  function addTodo() {
-    const todo = new Y.Map<string | boolean>();
-    todo.set("id", crypto.randomUUID());
-    todo.set("name", $newTodo);
-    todo.set("completed", false);
-    todo.set("listId", $selectedListId);
-    $yTodoItems.unshift([todo]);
-
-    $newTodo = "";
-
-    syncDocumentToServer($liveView);
-  }
-
-  function toggleCompleted(itemId: string) {
-    for (const yTodo of $yTodoItems) {
-      if (yTodo.get("id") === itemId) {
-        yTodo.set("completed", !yTodo.get("completed"));
-        syncDocumentToServer($liveView);
-        return;
-      }
-    }
-  }
-
-  function updateJournal(){
+  function updateJournal() {
     return;
-  }
-
-  /**
-   * Move a todo item to a new list.
-   */
-  function moveTodo(itemToMove: TodoItem, newListId: string) {
-    // Return if the itemToMove is already in the new list.
-    if (itemToMove.listId === newListId) {
-      return;
-    }
-
-    // Move itemToMove to the top of the new list.
-    const index = $yTodoItems.toArray().findIndex((yTodo) => yTodo.get("id") === itemToMove.id);
-    const todo = new Y.Map<string | boolean>();
-    todo.set("id", itemToMove.id);
-    todo.set("name", itemToMove.name);
-    todo.set("completed", itemToMove.completed);
-    todo.set("listId", newListId);
-
-    $yTodoItems.doc.transact(() => {
-      $yTodoItems.delete(index);
-      $yTodoItems.unshift([todo]);
-    });
-
-    syncDocumentToServer($liveView);
   }
 
   // Shared handlers for both todo lists and todo items ____________________________________________
 
   const updateItem: UpdateItem = (newItem) => {
-    if (isTodoItem(newItem)) {
-      for (const yTodo of $yTodoItems) {
-        if (yTodo.get("id") === newItem.id) {
-          $yTodoItems.doc.transact(() => {
-            yTodo.set("name", newItem.name);
-            yTodo.set("completed", newItem.completed);
-            yTodo.set("listId", newItem.listId);
+    for (const yList of $yTodoLists) {
+      if (yList.get("id") === newItem.id) {
+        $yTodoLists.doc.transact(() => {
+          yList.set("name", newItem.name);
 
-            newItem.newName === undefined
-              ? yTodo.delete("newName")
-              : yTodo.set("newName", newItem.newName);
+          newItem.newName === undefined || newItem.newName === ""
+            ? yList.delete("newName")
+            : yList.set("new", newItem.newName);
 
-            newItem.isEditing === undefined
-              ? yTodo.delete("isEditing")
-              : yTodo.set("isEditing", newItem.isEditing);
-          });
+          newItem.newBody === undefined || newItem.newBody === ""
+            ? yList.delete("newBody")
+            : yList.set("body", newItem.newBody);
 
-          syncDocumentToServer($liveView);
-          return;
-        }
-      }
-    } else {
-      for (const yList of $yTodoLists) {
-        if (yList.get("id") === newItem.id) {
-          $yTodoLists.doc.transact(() => {
-            yList.set("name", newItem.name);
+          newItem.isEditing === undefined
+            ? yList.delete("isEditing")
+            : yList.set("isEditing", newItem.isEditing);
+        });
 
-            newItem.newName === undefined || newItem.newName === ""
-              ? yList.delete("newName")
-              : yList.set("new", newItem.newName);
-
-            newItem.newBody === undefined || newItem.newBody === ""
-              ? yList.delete("newBody")
-              : yList.set("body", newItem.newBody);
-
-            newItem.isEditing === undefined
-              ? yList.delete("isEditing")
-              : yList.set("isEditing", newItem.isEditing);
-
-          });
-
-          syncDocumentToServer($liveView);
-          return;
-        }
+        syncDocumentToServer($liveView);
+        return;
       }
     }
   };
 
   const deleteItem: DeleteItem = (item) => {
-    let index = 0;
+    for (const yList of $yTodoLists) {
+      if (yList.get("id") === item.id) {
+        $yTodoLists.doc.transact(() => {
+          $yTodoLists.delete(index);
+        });
 
-    if (isTodoItem(item)) {
-      for (const yTodo of $yTodoItems) {
-        if (yTodo.get("id") === item.id) {
-          $yTodoItems.delete(index);
-          syncDocumentToServer($liveView);
-          return;
-        }
-        index++;
-      }
-    } else {
-      for (const yList of $yTodoLists) {
-        if (yList.get("id") === item.id) {
-          $yTodoLists.doc.transact(() => {
-            $yTodoLists.delete(index);
-            cleanOrphanedTodos(item.id);
-          });
-
-          syncDocumentToServer($liveView);
-          return;
-        }
-        index++;
-      }
-    }
-  };
-
-  function cleanOrphanedTodos(listId: string) {
-    const oldTodoListIds = $todoLists.map((list) => list.id);
-    const newTodoListIds = oldTodoListIds.filter((id) => id !== listId);
-
-    // NOTE: The index is tracked manually here because the delete
-    // operation changes the array length.
-    let index = 0;
-    $yTodoItems.forEach((yMap) => {
-      let yMapListId = yMap.get("listId");
-      yMapListId = typeof yMapListId === "string" ? yMapListId : "";
-
-      if (!newTodoListIds.includes(yMapListId)) {
-        $yTodoItems.delete(index);
+        syncDocumentToServer($liveView);
         return;
       }
-
-      // Only increment index if the item is not deleted.
       index++;
-    });
-  }
+    }
+  };
 
   // Drag and drop handlers ________________________________________________________________________
 
@@ -278,31 +165,21 @@
   }
   $: selectedListName = setSelectedListName($selectedListId);
   $: selectedJournal = $todoLists.find((item) => item.id === $selectedListId);
-
-  $: selectedListTodoItems = $todoItems.filter((item) => item.listId === $selectedListId);
-  $: selectedListUncompletedItems = selectedListTodoItems.filter((item) => !item.completed);
-
-  // Get itemToMove when $itemToProcessId changes __________________________________________________
-  $: itemToMove = $todoItems.find((item) => item.id === $itemToProcessId);
 </script>
 
 {#if $itemToProcessId && $openedMenuId === confirmDeletionModalId}
   <ConfirmDeletionModal listId={$itemToProcessId} {menuClass} {deleteItem} />
 {/if}
 
-{#if itemToMove && $openedMenuId === moveTodoMenuId}
-  <MoveTodoMenu {itemToMove} {menuClass} {moveTodo} />
-{/if}
-
 {#if $selectedListId}
   <ItemsContainer
     title={selectedListName}
-    totalCount={selectedListTodoItems.length}
-    uncompletedCount={selectedListUncompletedItems.length}
+    totalCount={0}
+    uncompletedCount={0}
     bind:isDropdownOpened={$isTodoOpened}
     {isScrollPositionRestored}
   >
-    <JournalEditor item={selectedJournal}  {updateItem} {menuClass} />
+    <JournalEditor item={selectedJournal} {updateItem} {menuClass} />
   </ItemsContainer>
 {:else}
   <NewItemForm
@@ -316,7 +193,7 @@
 
   <ItemsContainer
     title="Journals"
-    totalCount={$todoLists.length}
+    totalCount={0}
     bind:isDropdownOpened={$isListsOpened}
     {isScrollPositionRestored}
   >

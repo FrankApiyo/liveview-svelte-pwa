@@ -26,13 +26,13 @@
       updateItem({
         id: item.id,
         body: newBody,
-        name: item.name
+        name: item.name,
       });
     } else {
       updateItem({
         id: item.id,
         body: newBody,
-        name: item.name
+        name: item.name,
       });
     }
 
@@ -113,16 +113,16 @@
     onEscape: handleEscape,
   }}
 >
-    <textarea
-      data-focusindex="0"
-      class="
+  <textarea
+    data-focusindex="0"
+    class="
         input input-bordered border-neutral w-full join-item h-full
         focus:outline-none focus:ring-1 focus:ring-accent focus:ring-inset
       "
-      placeholder="Start writing your journal entry here..."
-      bind:value={newBody}
-      on:input={handleInput}
-    />
+    placeholder="Start writing your journal entry here..."
+    bind:value={newBody}
+    on:input={handleInput}
+  />
 
   {#if error}
     <p style="word-break: break-word;" class="text-error mt-1 text-sm" in:fly={{ y: -10 }}>
@@ -130,4 +130,3 @@
     </p>
   {/if}
 </form>
-

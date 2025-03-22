@@ -13,7 +13,6 @@
     const binaryDocument = Y.encodeStateAsUpdate(doc);
     const base64Document = fromUint8Array(binaryDocument);
 
-
     return base64Document;
   }
 
@@ -193,7 +192,8 @@
       default:
         const listId = hash.replace("#", "");
         const list = $todoLists.find((list) => list.id === listId);
-        if (list) { $urlHash = "listId";
+        if (list) {
+          $urlHash = "listId";
           $selectedListId = listId;
           history.replaceState({}, "", "/app");
           history.pushState({}, "", `/app#${listId}`);
