@@ -6,7 +6,6 @@
   import { clickOutside } from "$lib/actions/clickOutside";
 
   import { openedMenuId } from "$stores/clientOnlyState";
-  import { isTodoItem } from "$stores/crdtState";
 
   import type { TodoList, TodoItem } from "$stores/crdtState";
   import type { UpdateItem } from "./TodoApp.svelte";
@@ -22,19 +21,11 @@
    * Commit edits made to the item and close the edit form.
    */
   function commitEdits() {
-    if (isTodoItem(item)) {
-      updateItem({
+    updateItem({
         id: item.id,
         body: newBody,
         name: item.name,
       });
-    } else {
-      updateItem({
-        id: item.id,
-        body: newBody,
-        name: item.name,
-      });
-    }
 
     $openedMenuId = "";
   }
@@ -43,21 +34,11 @@
    * Discard edits made to the item and close the edit form.
    */
   function discardEdits() {
-    if (isTodoItem(item)) {
-      updateItem({
-        id: item.id,
-        body: item.body,
-        name: item.name,
-        completed: item.completed,
-        listId: item.listId,
-      });
-    } else {
-      updateItem({
+    updateItem({
         id: item.id,
         name: item.name,
         body: item.body,
       });
-    }
 
     $openedMenuId = "";
   }

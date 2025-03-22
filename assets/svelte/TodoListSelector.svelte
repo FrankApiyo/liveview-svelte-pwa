@@ -9,7 +9,7 @@
   import { useHasTouchScreen } from "$lib/hooks/useHasTouchScreen";
 
   import { itemToProcessId, openedMenuId, selectedListId, urlHash } from "$stores/clientOnlyState";
-  import { todoLists, todoItems, yJournals } from "$stores/crdtState";
+  import { todoLists, yJournals } from "$stores/crdtState";
 
   import DragHandle from "./DragHandle.svelte";
   import EditForm from "./EditForm.svelte";
@@ -89,8 +89,6 @@
   on:finalize={(event) => handleFinalize(event, updateUiOnFinalize)}
 >
   {#each $todoLists as list (list.id)}
-    {@const listItems = $todoItems.filter((item) => item.listId === list.id)}
-    {@const uncompletedItems = listItems.filter((item) => !item.completed)}
     <li
       class="
         flex items-center justify-between rounded-lg
@@ -123,7 +121,7 @@
             {list.name}
 
             <span class="badge badge-xs transition-none p-2">
-              {uncompletedItems.length} / {listItems.length}
+              0 / 0
             </span>
           </span>
 

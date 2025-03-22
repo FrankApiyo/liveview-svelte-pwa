@@ -56,9 +56,8 @@
   }
 
   export async function syncDocumentToServer(live: Live) {
-    // Set the todoLists and todoItems stores so that the UI is updated.
+    // Set the todoLists stores so that the UI is updated.
     todoLists.set(get(yJournals).toJSON());
-    todoItems.set(get(yTodoItems).toJSON());
 
     notifyUserSyncingIsInProgress();
 
@@ -84,7 +83,7 @@
   import * as Y from "yjs";
 
   import { selectedListId, urlHash } from "$stores/clientOnlyState";
-  import { todoLists, todoItems, yJournals, yTodoItems } from "$stores/crdtState";
+  import { todoLists, yJournals } from "$stores/crdtState";
   import { liveView, serverDocument } from "$stores/liveViewSocket";
   import { syncState } from "$stores/syncState";
 
@@ -104,9 +103,7 @@
     indexedDbProvider.on("synced", () => {
       // Sync stores with IndexedDB state.
       $yJournals = stateMap.get("lists");
-      $yTodoItems = stateMap.get("todos");
       $todoLists = $yJournals ? $yJournals.toJSON() : [];
-      $todoItems = $yTodoItems ? $yTodoItems.toJSON() : [];
 
       isSyncedToIndexedDb = true;
     });
@@ -119,12 +116,9 @@
     // state and save it to the server.
     if (!document) {
       // Create new Yjs arrays for lists and todos if they don't exist.
-      if (!$yJournals && !$yTodoItems) {
+      if (!$yJournals) {
         $yJournals = new Y.Array();
         stateMap.set("lists", $yJournals);
-
-        $yTodoItems = new Y.Array();
-        stateMap.set("todos", $yTodoItems);
       }
 
       // Send request to server to create new document from client state.
@@ -139,10 +133,9 @@
 
     // If document state exists on server, merge it with client state.
     Y.applyUpdate(doc, toUint8Array(document));
+    // TODO: we need to change lists to journals
     $yJournals = stateMap.get("lists");
-    $yTodoItems = stateMap.get("todos");
     $todoLists = $yJournals.toJSON();
-    $todoItems = $yTodoItems.toJSON();
 
     // When coming back online, send state to server so it can be broadcasted.
     if (event === "request_server_document") {

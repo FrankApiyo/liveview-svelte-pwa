@@ -22,7 +22,7 @@
     openedMenuId,
     selectedListId,
   } from "$stores/clientOnlyState";
-  import { todoLists, todoItems, yJournals, yTodoItems, isTodoItem } from "$stores/crdtState";
+  import { todoLists, yJournals } from "$stores/crdtState";
   import { liveView } from "$stores/liveViewSocket";
 
   import { syncDocumentToServer } from "./StateManagement.svelte";

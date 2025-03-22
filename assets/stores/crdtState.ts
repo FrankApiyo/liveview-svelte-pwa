@@ -20,12 +20,6 @@ export interface TodoItem {
   isEditing?: boolean;
 }
 
-export function isTodoItem(item: TodoList | TodoItem): item is TodoItem {
-  return "listId" in item && typeof item.listId === "string";
-}
-
 export const todoLists = writable<TodoList[]>();
-export const todoItems = writable<TodoItem[]>();
 
 export const yJournals = writable<YArray<YMap<string | boolean>>>();
-export const yTodoItems = writable<YArray<YMap<string | boolean>>>();
