@@ -19,6 +19,17 @@ defmodule LiveViewSvelteOfflineDemo.UserData.UserDocument do
     user_document
     |> cast(attrs, [:document, :user_id])
     |> validate_required([:document, :user_id])
+    |> then(fn changeset ->
+      case changeset.changes do
+        %{:document => _} ->
+          IO.inspect(changeset.changes.document, label: "Document Field>>>>")
+
+        %{} ->
+          :ok
+      end
+
+      changeset
+    end)
     |> foreign_key_constraint(:user_id)
     |> unique_constraint(:user_id)
   end

@@ -13,6 +13,7 @@
     const binaryDocument = Y.encodeStateAsUpdate(doc);
     const base64Document = fromUint8Array(binaryDocument);
 
+
     return base64Document;
   }
 
@@ -113,7 +114,6 @@
   }
 
   function syncServerToClient({ event, document }: ServerDocument) {
-    console.log("document: ", document)
     if (event === "mount") return;
 
     // If no document state exists on server, create a new document from client
@@ -193,8 +193,7 @@
       default:
         const listId = hash.replace("#", "");
         const list = $todoLists.find((list) => list.id === listId);
-        if (list) {
-          $urlHash = "listId";
+        if (list) { $urlHash = "listId";
           $selectedListId = listId;
           history.replaceState({}, "", "/app");
           history.pushState({}, "", `/app#${listId}`);

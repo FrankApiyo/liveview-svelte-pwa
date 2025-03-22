@@ -109,6 +109,7 @@
 
             updateItem({
               ...item,
+              newBody: item.body,
               newName: item.name,
               isEditing: true,
             });

@@ -139,7 +139,7 @@
       "
       in:fade={{ delay: 250 }}
     >
-      No lists yet. Please create a list to get started.
+      No Journal yet. Please create a Journal to get started
     </li>
   {/each}
 </ul>

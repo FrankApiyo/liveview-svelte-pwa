@@ -72,7 +72,24 @@ defmodule LiveViewSvelteOfflineDemo.UserData do
   If a user_document does not exist, return nil.
   """
   def get_user_document_by_user_id(user_id) do
-    Repo.get_by(UserDocument, user_id: user_id)
+    user_doc = Repo.get_by(UserDocument, user_id: user_id)
+    IO.inspect(user_doc.document, label: "User doc")
+    document = user_doc.document
+    doc = Yex.Doc.new()
+    decoded_binary = Base.decode64!(document)
+    Yex.apply_update(doc, decoded_binary)
+    map = Yex.Doc.get_map(doc, "")
+    IO.inspect(map, label: "first map")
+    %{"lists" => yLists, "todos" => yTodos} = Yex.Map.to_map(map)
+    yArrayLists = Yex.Array.to_list(yLists)
+    yArrayTodos = Yex.Array.to_list(yTodos)
+    IO.inspect(yArrayTodos)
+    todos = Enum.map(yArrayTodos, fn todo -> Yex.Map.to_map(todo) end)
+    lists = Enum.map(yArrayLists, fn list -> Yex.Map.to_map(list) end)
+
+    IO.inspect(%{"lists" => lists, "todos" => todos}, label: "lists and todos")
+
+    user_doc
   end
 
   @doc """
@@ -84,8 +101,12 @@ defmodule LiveViewSvelteOfflineDemo.UserData do
     user_id = socket.assigns.current_user.id
 
     case Repo.get_by(UserDocument, user_id: user_id) do
-      nil -> nil
-      %{document: document} -> document
+      nil ->
+        nil
+
+      %{document: document} ->
+        IO.inspect(document, label: "doc")
+        document
     end
   end
 

@@ -31,6 +31,7 @@
   import MoveTodoMenu from "./MoveTodoMenu.svelte";
   import NewItemForm from "./NewItemForm.svelte";
   import TodoCheckList from "./TodoCheckList.svelte";
+  import JournalEditor from "./JournalEditor.svelte";
   import TodoListSelector from "./TodoListSelector.svelte";
 
   import type { TodoList, TodoItem } from "$stores/crdtState";
@@ -79,6 +80,10 @@
         return;
       }
     }
+  }
+
+  function updateJournal(){
+    return;
   }
 
   /**
@@ -136,13 +141,18 @@
           $yTodoLists.doc.transact(() => {
             yList.set("name", newItem.name);
 
-            newItem.newName === undefined
+            newItem.newName === undefined || newItem.newName === ""
               ? yList.delete("newName")
-              : yList.set("newName", newItem.newName);
+              : yList.set("new", newItem.newName);
+
+            newItem.newBody === undefined || newItem.newBody === ""
+              ? yList.delete("newBody")
+              : yList.set("body", newItem.newBody);
 
             newItem.isEditing === undefined
               ? yList.delete("isEditing")
               : yList.set("isEditing", newItem.isEditing);
+
           });
 
           syncDocumentToServer($liveView);
@@ -267,6 +277,7 @@
     return $todoLists.find((list) => list.id === listId)?.name ?? "";
   }
   $: selectedListName = setSelectedListName($selectedListId);
+  $: selectedJournal = $todoLists.find((item) => item.id === $selectedListId);
 
   $: selectedListTodoItems = $todoItems.filter((item) => item.listId === $selectedListId);
   $: selectedListUncompletedItems = selectedListTodoItems.filter((item) => !item.completed);
@@ -284,15 +295,6 @@
 {/if}
 
 {#if $selectedListId}
-  <NewItemForm
-    addItemCallback={addTodo}
-    bind:value={$newTodo}
-    placeholder="Enter new item name"
-    submitButtonText="Add"
-    submitButtonTitle="Add item to list."
-    {isScrollPositionRestored}
-  />
-
   <ItemsContainer
     title={selectedListName}
     totalCount={selectedListTodoItems.length}
@@ -300,34 +302,20 @@
     bind:isDropdownOpened={$isTodoOpened}
     {isScrollPositionRestored}
   >
-    <TodoCheckList
-      title={selectedListName}
-      items={selectedListTodoItems}
-      {toggleCompleted}
-      {updateItem}
-      {deleteItem}
-      {handleConsider}
-      {handleFinalize}
-      {handleDragKeyDown}
-      bind:dragDisabled
-      {flipDurationMs}
-      {menuClass}
-      {moveTodoMenuId}
-      {isScrollPositionRestored}
-    />
+    <JournalEditor item={selectedJournal}  {updateItem} {menuClass} />
   </ItemsContainer>
 {:else}
   <NewItemForm
     addItemCallback={addList}
     bind:value={$newList}
-    placeholder="Enter new list name"
+    placeholder="Enter journal title"
     submitButtonText="Create"
     submitButtonTitle="Create new list."
     {isScrollPositionRestored}
   />
 
   <ItemsContainer
-    title="Lists"
+    title="Journals"
     totalCount={$todoLists.length}
     bind:isDropdownOpened={$isListsOpened}
     {isScrollPositionRestored}

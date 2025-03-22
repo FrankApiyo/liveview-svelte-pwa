@@ -4,8 +4,10 @@ import type { Array as YArray, Map as YMap } from "yjs";
 
 export interface TodoList {
   id: string;
+  body: string;
   name: string;
   newName?: string;
+  newBody?: string;
   isEditing?: boolean;
 }
 

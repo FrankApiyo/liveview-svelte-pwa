@@ -15,7 +15,7 @@
   export let updateItem: UpdateItem;
   export let menuClass: string;
 
-  let newName = item.newName;
+  let newBody = item.body || "";
   let error = "";
 
   /**
@@ -25,16 +25,14 @@
     if (isTodoItem(item)) {
       updateItem({
         id: item.id,
-        name: newName,
-        body: item.body,
-        completed: item.completed,
-        listId: item.listId,
+        body: newBody,
+        name: item.name
       });
     } else {
       updateItem({
         id: item.id,
-        name: newName,
-        body: item.body,
+        body: newBody,
+        name: item.name
       });
     }
 
@@ -48,8 +46,8 @@
     if (isTodoItem(item)) {
       updateItem({
         id: item.id,
-        name: item.name,
         body: item.body,
+        name: item.name,
         completed: item.completed,
         listId: item.listId,
       });
@@ -66,23 +64,23 @@
 
   function handleSubmit() {
     // Trim whitespace.
-    newName = newName.replace(/\s+/g, " ").trim();
+    body = newBody.replace(/\s+/g, " ").trim();
 
     // Check if new item name is empty string or unchanged.
-    if (["", item.name].includes(newName)) {
+    if (["", item.body].includes(newBody)) {
       discardEdits();
       return;
     }
 
     // Check if new item name is a change in casing of the original name.
-    if (item.name.toLowerCase() === newName.toLowerCase()) {
+    if (item.body.toLowerCase() === newBody.toLowerCase()) {
       commitEdits();
       return;
     }
 
     // Check if string is too long.
-    if (newName.length > 500) {
-      error = "Cannot be over 500 characters!";
+    if (newBody.length > 50000) {
+      error = "Cannot be over 50000 characters!";
       return;
     }
 
@@ -93,13 +91,13 @@
    * Allow the user to cancel the edit by pressing the escape key.
    */
   function handleEscape() {
-    newName = "";
+    newBody = "";
     handleSubmit();
   }
 
   function handleInput() {
-    // Track the newName so that page refreshes don't reset the input value.
-    updateItem({ ...item, newName });
+    // Track the body so that page refreshes don't reset the input value.
+    updateItem({ ...item, newBody });
 
     // Reset error message.
     error = "";
@@ -116,14 +114,14 @@
   }}
 >
   <div class="w-full join">
-    <input
+    <textarea
       data-focusindex="0"
-      type="text"
       class="
         input input-bordered border-neutral w-full join-item
         focus:outline-none focus:ring-1 focus:ring-accent focus:ring-inset
       "
-      bind:value={newName}
+      placeholder="Start writing your journal entry here..."
+      bind:value={newBody}
       on:input={handleInput}
     />
 
@@ -142,3 +140,4 @@
     </p>
   {/if}
 </form>
+
