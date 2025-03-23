@@ -33,12 +33,12 @@ defmodule LiveViewSvelteOfflineDemoWeb.CustomComponents do
         <!-- End Favicons -->
         <meta name="csrf-token" content={Phoenix.Controller.get_csrf_token()} />
         <.live_title>Journal</.live_title>
-        <meta name="description" content="Local-First LiveView Svelte Journaling App" />
+        <meta name="description" content="Local-first Mental Health Journaling" />
         <!-- Open Graph -->
         <meta property="og:title" content="Journal" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://liveview-svelte-pwa.fly.dev" />
-        <meta property="og:description" content="Local-First LiveView Svelte Journaling App" />
+        <meta property="og:description" content="Local-first Mental Health Journaling" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:site_name" content="Journal" />
         <meta property="og:image" content="https://liveview-svelte-pwa.fly.dev/og.png" />
