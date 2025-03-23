@@ -11,6 +11,7 @@ defmodule LiveViewSvelteOfflineDemo.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    field :user_role, :integer, default: 0
 
     has_one :user_document, LiveViewSvelteOfflineDemo.UserData.UserDocument
 
@@ -42,9 +43,12 @@ defmodule LiveViewSvelteOfflineDemo.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    # Include :user_role in the cast
+    |> cast(attrs, [:email, :password, :user_role])
     |> validate_email(opts)
     |> validate_password(opts)
+    # Validate the user_role field
+    |> validate_user_role()
   end
 
   defp validate_email(changeset, opts) do
@@ -59,10 +63,11 @@ defmodule LiveViewSvelteOfflineDemo.Accounts.User do
     changeset
     |> validate_required([:password])
     |> validate_length(:password, min: 12, max: 72)
-    # Examples of additional password validation:
-    # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
-    # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
-    # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
+    |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
+    |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
+    |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/,
+      message: "at least one digit or punctuation character"
+    )
     |> maybe_hash_password(opts)
   end
 
@@ -72,10 +77,7 @@ defmodule LiveViewSvelteOfflineDemo.Accounts.User do
 
     if hash_password? && password && changeset.valid? do
       changeset
-      # If using Bcrypt, then further validate it is at most 72 bytes long
       |> validate_length(:password, max: 72, count: :bytes)
-      # Hashing could be done with `Ecto.Changeset.prepare_changes/2`, but that
-      # would keep the database transaction open longer and hurt performance.
       |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
       |> delete_change(:password)
     else
@@ -163,5 +165,10 @@ defmodule LiveViewSvelteOfflineDemo.Accounts.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  defp validate_user_role(changeset) do
+    changeset
+    |> validate_inclusion(:user_role, [0, 1], message: "must be either 0 (default) or 1 (admin)")
   end
 end
