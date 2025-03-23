@@ -17,6 +17,46 @@ defmodule LiveViewSvelteOfflineDemoWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :openapi_spec do
+    plug OpenApiSpex.Plug.PutApiSpec, module: LiveViewSvelteOfflineDemoWeb.ApiSpec
+  end
+
+  pipeline :x_api_auth do
+    plug LiveViewSvelteOfflineDemoWeb.Plugs.RequireSignupToken
+  end
+
+  pipeline :api_auth do
+    plug Guardian.Plug.Pipeline,
+      module: LiveViewSvelteOfflineDemo.Guardian,
+      error_handler: LiveViewSvelteOfflineDemoWeb.AuthErrorHandler
+
+    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
+  scope "/api", LiveViewSvelteOfflineDemoWeb do
+    pipe_through :api
+
+    scope "/" do
+      pipe_through :x_api_auth
+      post "/signup", AuthController, :signup
+      post "/login", AuthController, :login
+    end
+
+    # TODO: Add routes for getting journals
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/openapi"
+  end
+
+  scope "/" do
+    pipe_through :openapi_spec
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+  end
+
   scope "/", LiveViewSvelteOfflineDemoWeb do
     pipe_through :browser
 
@@ -29,11 +69,6 @@ defmodule LiveViewSvelteOfflineDemoWeb.Router do
 
     get "/offline", OfflineController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", LiveViewSvelteOfflineDemoWeb do
-  #   pipe_through :api
-  # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:live_view_svelte_offline_demo, :dev_routes) do
