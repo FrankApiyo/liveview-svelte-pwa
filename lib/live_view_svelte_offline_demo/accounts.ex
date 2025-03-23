@@ -350,4 +350,20 @@ defmodule LiveViewSvelteOfflineDemo.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def authenticate_user(email, password) do
+    user = Repo.get_by(User, email: email)
+
+    case user do
+      nil ->
+        {:error, :not_found}
+
+      %User{} = user ->
+        if User.valid_password?(user, password) do
+          {:ok, user}
+        else
+          {:error, :invalid_credentials}
+        end
+    end
+  end
 end

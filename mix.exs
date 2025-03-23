@@ -32,6 +32,8 @@ defmodule LiveViewSvelteOfflineDemo.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:open_api_spex, "~> 3.21"},
+      {:guardian, "~> 2.3"},
       {:wallaby, "~> 0.30", runtime: false, only: :test},
       {:y_ex, "~> 0.6.0"},
       {:bcrypt_elixir, "~> 3.0"},
