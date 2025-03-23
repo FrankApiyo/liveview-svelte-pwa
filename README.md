@@ -108,4 +108,5 @@ fly launch
 - [ ] Deployment & Documentation
   - [ ] Include scanning with trivy as a sec. measure
   - [ ] Add bot and webcrawler detection and prevention strategies
+  - [ ] Add some unit tests for svelte fns (night)
 - [ ] More Wallaby tests (nights)
