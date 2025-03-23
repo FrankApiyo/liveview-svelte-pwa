@@ -1,5 +1,7 @@
 # Local-First LiveView Svelte Journaling App
 
+![Logo](logo.webp)
+
 This Journaling app is a demo of an installable [Phoenix](https://www.phoenixframework.org/)
 Progressive Web App ([PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps))
 that can sync real-time across multiple devices while also being able to work locally offline.
