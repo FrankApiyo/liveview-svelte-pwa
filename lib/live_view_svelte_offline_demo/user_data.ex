@@ -73,21 +73,34 @@ defmodule LiveViewSvelteOfflineDemo.UserData do
   """
   def get_user_document_by_user_id(user_id) do
     user_doc = Repo.get_by(UserDocument, user_id: user_id)
-    IO.inspect(user_doc.document, label: "User doc")
-    document = user_doc.document
-    doc = Yex.Doc.new()
-    decoded_binary = Base.decode64!(document)
-    Yex.apply_update(doc, decoded_binary)
-    map = Yex.Doc.get_map(doc, "")
-    IO.inspect(map, label: "first map")
-    IO.inspect(Yex.Map.to_map(map), label: "yex map")
-    %{"journals" => yJournals} = Yex.Map.to_map(map)
-    yJournalList = Yex.Array.to_list(yJournals)
-    journals = Enum.map(yJournalList, fn list -> Yex.Map.to_map(list) end)
-
-    IO.inspect(%{"journals" => journals}, label: "lists and todos")
-
     user_doc
+  end
+
+  @doc """
+  Convert yex -> ex
+  """
+  def convert_to_ex(yex_doc) do
+    # initialize doc and update with user doc
+    doc = Yex.Doc.new()
+    decoded_binary = Base.decode64!(yex_doc.document)
+    Yex.apply_update(doc, decoded_binary)
+
+    # doc -> map
+    %{"journals" => yJournals} = doc |> Yex.Doc.get_map("") |> Yex.Map.to_map()
+
+    # journals Yex.Map -> ex list
+    yJournals
+    |> Yex.Array.to_list()
+    |> Enum.map(fn list -> Yex.Map.to_map(list) end)
+  end
+
+  @doc """
+  Gets a single user_document by user_id yex -> ex converted.
+
+  If a user_document does not exist, return nil.
+  """
+  def get_user_ex_document_by_user_id(user_id) do
+    user_id |> get_user_document_by_user_id() |> convert_to_ex()
   end
 
   @doc """

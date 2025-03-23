@@ -96,10 +96,10 @@ fly launch
 - [X] Add some pre-commit hooks to run the following:
   - [X] `mix format`
   - [X] `npx prettier --write .`
-- [ ] Add APIs
+- [ ] Add APIs with Django
   - [ ] Add new tables for Journals
-  - [ ] Add async tasks to sync to these tables
-  - [ ] Add API authentication
+  - [X] Add API endpoint to get JSON journals
+  - [X] Add API authentication
   - [ ] Add some simplistic RBAC
 - [ ] Visualizations
   - [ ] Analytical summarization of journal entries
