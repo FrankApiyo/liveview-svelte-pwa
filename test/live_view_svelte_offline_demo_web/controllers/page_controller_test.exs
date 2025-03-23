@@ -8,7 +8,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.PageLiveTest do
     |> take_screenshot(name: "home_page_before_scroll")
     |> Wallaby.Browser.page_source()
 
-    assert_has(session, Wallaby.Query.text("Local-First LiveView Svelte Journaling App"))
+    assert_has(session, Wallaby.Query.text("Local-first Mental Health Journaling"))
 
     assert_has(
       session,

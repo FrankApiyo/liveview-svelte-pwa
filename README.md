@@ -1,4 +1,4 @@
-# Local-First LiveView Svelte Journaling App
+# Local-first Mental Health Journaling
 
 ![Logo](logo.webp)
 

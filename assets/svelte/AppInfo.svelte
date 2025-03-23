@@ -13,7 +13,7 @@
 </script>
 
 <div class="max-w-md mx-auto px-4 md:p-0">
-  <h1 class="text-5xl font-black my-5">Local-First LiveView Svelte Journaling App</h1>
+  <h1 class="text-5xl font-black my-5">Local-first Mental Health Journaling</h1>
 
   <p>
     This Journaling app is a demo of an installable
