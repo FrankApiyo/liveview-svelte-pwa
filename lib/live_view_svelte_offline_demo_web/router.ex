@@ -26,11 +26,13 @@ defmodule LiveViewSvelteOfflineDemoWeb.Router do
   end
 
   pipeline :api_auth do
+    # TODO: add x_api_auth here too
     plug Guardian.Plug.Pipeline,
       module: LiveViewSvelteOfflineDemo.Guardian,
       error_handler: LiveViewSvelteOfflineDemoWeb.AuthErrorHandler
 
-    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.VerifyHeader, scheme: "Bearer"
+    plug Guardian.Plug.LoadResource
     plug Guardian.Plug.EnsureAuthenticated
   end
 
@@ -43,7 +45,12 @@ defmodule LiveViewSvelteOfflineDemoWeb.Router do
       post "/login", AuthController, :login
     end
 
-    # TODO: Add routes for getting journals
+    scope "/" do
+      pipe_through :api_auth
+      pipe_through :x_api_auth
+
+      get "/user_documents", UserDataController, :user_documents
+    end
   end
 
   scope "/" do

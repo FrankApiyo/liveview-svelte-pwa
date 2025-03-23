@@ -89,7 +89,9 @@ defmodule LiveViewSvelteOfflineDemo.UserData do
     %{"journals" => yJournals} = doc |> Yex.Doc.get_map("") |> Yex.Map.to_map()
 
     # journals Yex.Map -> ex list
-    yJournals |> Yex.Array.to_list() |> Enum.map(fn list -> Yex.Map.to_map(list) end)
+    yJournals
+    |> Yex.Array.to_list()
+    |> Enum.map(fn list -> Yex.Map.to_map(list) end)
   end
 
   @doc """
