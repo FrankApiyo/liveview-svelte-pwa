@@ -34,4 +34,31 @@ defmodule LiveViewSvelteOfflineDemoWeb.UserDataController do
         json(conn, %{documents: documents})
     end
   end
+
+  operation(:auth_check,
+    summary: "Authentication Check",
+    description: "Returns OK if the request is authenticated",
+    security: [%{"apiKeyAuth" => []}, %{"jwtAuth" => []}],
+    responses: %{
+      200 =>
+        {"Success", "application/json", LiveViewSvelteOfflineDemoWeb.Schemas.AuthCheckResponse},
+      401 =>
+        {"Unauthorized", "application/json",
+         LiveViewSvelteOfflineDemoWeb.Schemas.UnauthorizedError}
+    }
+  )
+
+  def auth_check(conn, _params) do
+    user = Plug.current_resource(conn)
+
+    case user do
+      nil ->
+        conn
+        |> put_status(:unauthorized)
+        |> json(%{error: "Unauthorized"})
+
+      _ ->
+        json(conn, %{message: "OK"})
+    end
+  end
 end

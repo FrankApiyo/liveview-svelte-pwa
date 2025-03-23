@@ -50,6 +50,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.Router do
       pipe_through :x_api_auth
 
       get "/user_documents", UserDataController, :user_documents
+      get "/auth_check", UserDataController, :auth_check
     end
   end
 

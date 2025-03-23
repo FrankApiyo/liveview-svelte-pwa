@@ -23,28 +23,50 @@ defmodule LiveViewSvelteOfflineDemoWeb.UserDataControllerTest do
     %{user: user, document: document}
   end
 
-  test "returns user documents when authenticated", %{conn: conn, user: user, document: _document} do
-    # Generate a token and add to the authorization header
-    {:ok, token, _claims} = Guardian.encode_and_sign(user)
-    conn = put_req_header(conn, "authorization", "Bearer #{token}")
+  describe "GET /api/user_documents" do
+    test "returns user documents when authenticated", %{
+      conn: conn,
+      user: user,
+      document: _document
+    } do
+      {:ok, token, _claims} = Guardian.encode_and_sign(user)
+      conn = put_req_header(conn, "authorization", "Bearer #{token}")
 
-    # Make request
-    response = get(conn, ~p"/api/user_documents")
+      response = get(conn, ~p"/api/user_documents")
 
-    # Assertions
-    assert json_response(response, 200)["documents"] == [
-             %{
-               "id" => "4347f1ea-582a-4637-8525-6f5f9af5bc7e",
-               "body" => "Hey, how are you? How did you sleep? Are you ok?",
-               "name" => "Good morning journal!"
-             }
-           ]
+      assert json_response(response, 200)["documents"] == [
+               %{
+                 "id" => "4347f1ea-582a-4637-8525-6f5f9af5bc7e",
+                 "body" => "Hey, how are you? How did you sleep? Are you ok?",
+                 "name" => "Good morning journal!"
+               }
+             ]
+    end
+
+    test "returns 401 when user is not authenticated", %{conn: conn} do
+      response = get(conn, ~p"/api/user_documents")
+
+      assert response.status == 401
+      assert json_response(response, 401) == %{"error" => "no_resource_found"}
+    end
   end
 
-  test "returns 401 when user is not authenticated", %{conn: conn} do
-    response = get(conn, ~p"/api/user_documents")
+  describe "GET /api/auth_check" do
+    test "returns OK when authenticated", %{conn: conn, user: user} do
+      {:ok, token, _claims} = Guardian.encode_and_sign(user)
+      conn = put_req_header(conn, "authorization", "Bearer #{token}")
 
-    assert response.status == 401
-    assert json_response(response, 401) == %{"error" => "no_resource_found"}
+      response = get(conn, ~p"/api/auth_check")
+
+      assert response.status == 200
+      assert json_response(response, 200) == %{"message" => "OK"}
+    end
+
+    test "returns 401 when user is not authenticated", %{conn: conn} do
+      response = get(conn, ~p"/api/auth_check")
+
+      assert response.status == 401
+      assert json_response(response, 401) == %{"error" => "no_resource_found"}
+    end
   end
 end
