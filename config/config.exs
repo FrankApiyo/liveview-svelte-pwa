@@ -7,11 +7,11 @@
 # General application configuration
 import Config
 
-config :journal, LiveViewSvelteOfflineDemo.Guardian,
+config :live_view_svelte_offline_demo, LiveViewSvelteOfflineDemo.Guardian,
   issuer: "live_view_svelte_offline_demo",
   secret_key: "so5Iq0d0Bs0vsaUarWwh7g4m3sTDz/a3Ntk61oBhTYlimUQaOUe7kZA6Wh5lsdj1"
 
-config :journal, :api_auth,
+config :live_view_svelte_offline_demo, :api_auth,
   signup_token: "k4qhpO0a9jTWukZIcgw3SwoBmXW62X+y3X1jit8GkAknmdb9u2r8IoYOF5FS36sB"
 
 config :live_view_svelte_offline_demo,

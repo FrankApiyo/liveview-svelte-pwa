@@ -11,8 +11,8 @@ defmodule LiveViewSvelteOfflineDemoWeb.ApiSpec do
         Server.from_endpoint(Endpoint)
       ],
       info: %Info{
-        title: to_string(Application.spec(:journal, :description)),
-        version: to_string(Application.spec(:journal, :vsn))
+        title: to_string(Application.spec(:live_view_svelte_offline_demo, :description)),
+        version: to_string(Application.spec(:live_view_svelte_offline_demo, :vsn))
       },
       # Populate the paths from a phoenix router
       paths: Paths.from_router(Router),

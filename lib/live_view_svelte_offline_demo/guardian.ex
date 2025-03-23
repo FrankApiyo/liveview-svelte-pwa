@@ -1,5 +1,5 @@
 defmodule LiveViewSvelteOfflineDemo.Guardian do
-  use Guardian, otp_app: :journal
+  use Guardian, otp_app: :live_view_svelte_offline_demo
 
   alias LiveViewSvelteOfflineDemo.Accounts
 

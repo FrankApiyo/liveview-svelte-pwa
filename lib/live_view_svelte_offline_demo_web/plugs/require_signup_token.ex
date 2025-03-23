@@ -6,7 +6,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.Plugs.RequireSignupToken do
 
   def call(%Plug.Conn{req_headers: headers} = conn, _opts) do
     api_key = headers |> Enum.find_value(fn {key, val} -> if key == "x-api-key", do: val end)
-    expected_key = Application.get_env(:journal, :api_auth)[:signup_token]
+    expected_key = Application.get_env(:live_view_svelte_offline_demo, :api_auth)[:signup_token]
 
     if api_key == expected_key do
       conn

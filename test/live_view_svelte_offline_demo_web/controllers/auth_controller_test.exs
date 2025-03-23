@@ -4,7 +4,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.AuthControllerTest do
   @valid_attrs %{"email" => "test@example.com", "password" => "securepassword"}
   @invalid_attrs %{"email" => "test@example.com", "password" => "secret"}
   @login_invalid_attrs %{"email" => "test@example.com", "password" => "wrongpassword"}
-  @api_key Application.compile_env!(:journal, :api_auth)[:signup_token]
+  @api_key Application.compile_env!(:live_view_svelte_offline_demo, :api_auth)[:signup_token]
 
   setup %{conn: conn} do
     conn = put_req_header(conn, "x-api-key", @api_key)
