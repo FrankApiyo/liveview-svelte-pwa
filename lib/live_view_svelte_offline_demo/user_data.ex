@@ -116,7 +116,6 @@ defmodule LiveViewSvelteOfflineDemo.UserData do
         nil
 
       %{document: document} ->
-        IO.inspect(document, label: "doc")
         document
     end
   end

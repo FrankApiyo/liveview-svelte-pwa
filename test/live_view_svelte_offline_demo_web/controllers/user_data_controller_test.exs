@@ -59,7 +59,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.UserDataControllerTest do
       response = get(conn, ~p"/api/auth_check")
 
       assert response.status == 200
-      assert json_response(response, 200) == %{"message" => "OK"}
+      assert json_response(response, 200) == %{"message" => "OK", "user_id" => user.id}
     end
 
     test "returns 401 when user is not authenticated", %{conn: conn} do

@@ -57,8 +57,8 @@ defmodule LiveViewSvelteOfflineDemoWeb.UserDataController do
         |> put_status(:unauthorized)
         |> json(%{error: "Unauthorized"})
 
-      _ ->
-        json(conn, %{message: "OK"})
+      user ->
+        json(conn, %{message: "OK", user_id: user.id})
     end
   end
 end
