@@ -17,7 +17,7 @@ config :live_view_svelte_offline_demo, LiveViewSvelteOfflineDemo.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "live_view_svelte_offline_demo_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "live_view_svelte_offline_demo_test_db#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 

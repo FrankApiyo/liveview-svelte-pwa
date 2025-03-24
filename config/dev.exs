@@ -5,7 +5,7 @@ config :live_view_svelte_offline_demo, LiveViewSvelteOfflineDemo.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "live_view_svelte_offline_demo_dev",
+  database: "live_view_svelte_offline_demo_dev_db",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
