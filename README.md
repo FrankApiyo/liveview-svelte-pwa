@@ -1,6 +1,6 @@
 # Local-first Mental Health Journaling
 
-![Logo](logo.webp)
+![Logo](logo2.webp)
 
 This Journaling app is a demo of an installable [Phoenix](https://www.phoenixframework.org/)
 Progressive Web App ([PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps))
