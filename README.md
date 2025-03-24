@@ -98,11 +98,14 @@ fly launch
 - [X] Add some pre-commit hooks to run the following:
   - [X] `mix format`
   - [X] `npx prettier --write .`
-- [ ] Add APIs with Django
-  - [ ] Add new tables for Journals
+- [x] Add APIs with Django
+  - [x] Add new tables for Journals
   - [X] Add API endpoint to get JSON journals
   - [X] Add API authentication
-  - [ ] Add some simplistic RBAC
+  - [X] Add some simplistic RBAC
+- [x] Fix issue with syncing to the text area
+- [x] Remove `syncing` from settings page
+- [ ] Look into a better field type for documents in PostgreSQL
 - [ ] Visualizations
   - [ ] Analytical summarization of journal entries
   - [ ] Word map
@@ -111,4 +114,6 @@ fly launch
   - [ ] Include scanning with trivy as a sec. measure
   - [ ] Add bot and webcrawler detection and prevention strategies
   - [ ] Add some unit tests for svelte fns (night)
+- [ ] Research on how to always make sure that a PWA JS is always up to date
+- [ ] Remove dev secrets from repo
 - [ ] More Wallaby tests (nights)
