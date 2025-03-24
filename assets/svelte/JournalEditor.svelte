@@ -20,7 +20,7 @@
   let isTyping = false;
 
   $: {
-    const updatedItem = $journals.find(j => j.id === item.id);
+    const updatedItem = $journals.find((j) => j.id === item.id);
     if (updatedItem && !isTyping) {
       newBody = updatedItem.body || "";
     }
