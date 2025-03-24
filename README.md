@@ -105,7 +105,7 @@ fly launch
   - [X] Add some simplistic RBAC
 - [x] Fix issue with syncing to the text area
 - [x] Remove `syncing` from settings page
-- [ ] Look into a better field type for documents in PostgreSQL
+- [x] Look into a better field type for documents in PostgreSQL
 - [ ] Visualizations
   - [ ] Analytical summarization of journal entries
   - [ ] Word map
