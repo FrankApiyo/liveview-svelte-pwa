@@ -6,6 +6,7 @@
   import { clickOutside } from "$lib/actions/clickOutside";
 
   import { openedMenuId } from "$stores/clientOnlyState";
+  import { journals } from "$stores/crdtState";
 
   import type { Journal } from "$stores/crdtState";
   import type { UpdateItem } from "./JournalApp.svelte";
@@ -16,10 +17,15 @@
 
   let newBody = item.body || "";
   let error = "";
+  let isTyping = false;
 
-  /**
-   * Commit edits made to the item and close the edit form.
-   */
+  $: {
+    const updatedItem = $journals.find(j => j.id === item.id);
+    if (updatedItem && !isTyping) {
+      newBody = updatedItem.body || "";
+    }
+  }
+
   function commitEdits() {
     updateItem({
       id: item.id,
@@ -30,9 +36,6 @@
     $openedMenuId = "";
   }
 
-  /**
-   * Discard edits made to the item and close the edit form.
-   */
   function discardEdits() {
     updateItem({
       id: item.id,
@@ -44,22 +47,18 @@
   }
 
   function handleSubmit() {
-    // Trim whitespace.
-    body = newBody.replace(/\s+/g, " ").trim();
+    newBody = newBody.replace(/\s+/g, " ").trim();
 
-    // Check if new item name is empty string or unchanged.
     if (["", item.body].includes(newBody)) {
       discardEdits();
       return;
     }
 
-    // Check if new item name is a change in casing of the original name.
     if (item.body.toLowerCase() === newBody.toLowerCase()) {
       commitEdits();
       return;
     }
 
-    // Check if string is too long.
     if (newBody.length > 50000) {
       error = "Cannot be over 50000 characters!";
       return;
@@ -68,20 +67,21 @@
     commitEdits();
   }
 
-  /**
-   * Allow the user to cancel the edit by pressing the escape key.
-   */
   function handleEscape() {
     newBody = "";
     handleSubmit();
   }
 
-  function handleInput() {
-    // Track the body so that page refreshes don't reset the input value.
+  function handleInput(event: Event) {
+    isTyping = true;
+    const target = event.target as HTMLTextAreaElement;
+    newBody = target.value;
     updateItem({ ...item, newBody });
-
-    // Reset error message.
     error = "";
+  }
+
+  function handleBlur() {
+    isTyping = false;
   }
 </script>
 
@@ -103,6 +103,7 @@
     placeholder="Start writing your journal entry here..."
     bind:value={newBody}
     on:input={handleInput}
+    on:blur={handleBlur}
   />
 
   {#if error}

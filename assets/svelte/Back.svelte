@@ -12,6 +12,9 @@
   export let href: string = undefined;
   export let ariaLabel = "Back";
   export let showTopBarOnNav = false;
+  const currentPath = window.location.pathname;
+  const hideSyncStatusPaths = ["/users/settings"]
+  const hideSyncStatus = hideSyncStatusPaths.includes(currentPath);
 </script>
 
 {#if href}
@@ -47,5 +50,7 @@
   >
     <ArrowLeft class="h-10 w-10" strokeWidth={1.75} />
   </button>
-  <SyncStatusBadge />
+  {#if !hideSyncStatus }
+    <SyncStatusBadge />
+  {/if}
 {/if}
