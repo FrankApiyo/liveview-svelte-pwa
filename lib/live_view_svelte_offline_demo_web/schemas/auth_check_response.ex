@@ -10,9 +10,11 @@ defmodule LiveViewSvelteOfflineDemoWeb.Schemas.AuthCheckResponse do
       description: "Response schema for the auth check endpoint",
       type: :object,
       properties: %{
-        message: %OpenApiSpex.Schema{type: :string, example: "OK"}
+        role: %OpenApiSpex.Schema{type: :string, example: "defualt"},
+        message: %OpenApiSpex.Schema{type: :string, example: "OK"},
+        user_id: %OpenApiSpex.Schema{type: :integer, example: 1}
       },
-      required: [:message]
+      required: [:message, :user_id]
     }
   end
 end

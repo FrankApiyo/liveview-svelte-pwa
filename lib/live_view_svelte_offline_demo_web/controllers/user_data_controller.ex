@@ -58,7 +58,8 @@ defmodule LiveViewSvelteOfflineDemoWeb.UserDataController do
         |> json(%{error: "Unauthorized"})
 
       user ->
-        json(conn, %{message: "OK", user_id: user.id})
+        role = if user.user_role == 0, do: "default", else: "admin"
+        json(conn, %{message: "OK", user_id: user.id, role: role})
     end
   end
 end
