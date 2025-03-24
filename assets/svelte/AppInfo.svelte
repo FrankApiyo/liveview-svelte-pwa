@@ -81,6 +81,11 @@
         (via <Link href="https://github.com/yjs/yjs" external>Yjs</Link>) to resolve conflicts
         between distributed app states.
       </li>
+
+      <li>
+        <Link href="https://github.com/elixir-wallaby/wallaby" external>Wallaby</Link>
+        to run integration tests
+      </li>
     </ul>
   </div>
 
