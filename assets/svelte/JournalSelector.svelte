@@ -125,7 +125,7 @@
           <span style="word-break: break-word;">
             {journal.name}
 
-            <span class="badge badge-xs transition-none p-2"> 0 / 0 </span>
+            <span class="badge badge-xs transition-none p-2">🧘</span>
           </span>
 
           <ChevronRight class="shrink-0 w-4 h-4" />

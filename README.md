@@ -106,14 +106,13 @@ fly launch
 - [x] Fix issue with syncing to the text area
 - [x] Remove `syncing` from settings page
 - [x] Look into a better field type for documents in PostgreSQL
-- [ ] Visualizations
-  - [ ] Analytical summarization of journal entries
-  - [ ] Word map
-- [ ] Categorization
+- [x] Visualizations
+  - [x] Wordcloud
 - [ ] Deployment & Documentation
   - [ ] Include scanning with trivy as a sec. measure
   - [ ] Add bot and webcrawler detection and prevention strategies
   - [ ] Add some unit tests for svelte fns (night)
+- [ ] More FE tests
 - [ ] Research on how to always make sure that a PWA JS is always up to date
 - [ ] Remove dev secrets from repo
 - [ ] More Wallaby tests (nights)

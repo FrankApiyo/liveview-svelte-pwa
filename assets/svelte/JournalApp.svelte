@@ -169,8 +169,6 @@
 {#if $selectedJournalId}
   <ItemsContainer
     title={selectedJournalName}
-    totalCount={0}
-    uncompletedCount={0}
     bind:isDropdownOpened={$isJournalOpened}
     {isScrollPositionRestored}
   >
@@ -188,7 +186,6 @@
 
   <ItemsContainer
     title="Journals"
-    totalCount={0}
     bind:isDropdownOpened={$isJournalsOpened}
     {isScrollPositionRestored}
   >

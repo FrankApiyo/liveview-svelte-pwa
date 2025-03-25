@@ -1,6 +1,6 @@
 <script lang="ts">
   import { scale } from "svelte/transition";
-  import { Info, LogOut, Settings, UserRound } from "lucide-svelte";
+  import { Info, LogOut, Settings, UserRound, TrendingUp } from "lucide-svelte";
 
   import { focusTrap } from "$lib/actions/focusTrap.js";
   import { useIsConnected } from "$lib/hooks/useIsConnected";
@@ -143,6 +143,20 @@
           </a>
         </li>
 
+        <li>
+          <a
+            data-focusindex="1"
+            class="
+              flex gap-2
+              focus:outline-none focus-visible:ring ring-accent ring-offset-1 ring-offset-base-100
+            "
+            href="/users/dataViz"
+            class:pointer-events-none={disabled}
+          >
+            <TrendingUp class="h-4 w-4" />
+            Analytics
+          </a>
+        </li>
         <li>
           <a
             data-focusindex="1"
