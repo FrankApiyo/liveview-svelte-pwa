@@ -26,7 +26,6 @@ defmodule LiveViewSvelteOfflineDemoWeb.Router do
   end
 
   pipeline :api_auth do
-    # TODO: add x_api_auth here too
     plug Guardian.Plug.Pipeline,
       module: LiveViewSvelteOfflineDemo.Guardian,
       error_handler: LiveViewSvelteOfflineDemoWeb.AuthErrorHandler
@@ -117,6 +116,7 @@ defmodule LiveViewSvelteOfflineDemoWeb.Router do
 
     live_session :require_authenticated_user,
       on_mount: [{LiveViewSvelteOfflineDemoWeb.UserAuth, :ensure_authenticated}] do
+      live "/users/dataViz", DataVizLive
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end

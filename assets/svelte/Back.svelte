@@ -13,7 +13,7 @@
   export let ariaLabel = "Back";
   export let showTopBarOnNav = false;
   const currentPath = window.location.pathname;
-  const hideSyncStatusPaths = ["/users/settings"];
+  const hideSyncStatusPaths = ["/users/settings", "/users/dataViz"];
   const hideSyncStatus = hideSyncStatusPaths.includes(currentPath);
 </script>
 
