@@ -5,7 +5,6 @@
   import { ChevronDown, ChevronUp } from "lucide-svelte";
 
   export let title: string;
-  export let totalCount: number;
   export let uncompletedCount: number | undefined = undefined;
   export let isDropdownOpened: boolean;
   export let isScrollPositionRestored: boolean;
@@ -53,14 +52,7 @@
     <div class="flex gap-2 items-center text-xl font-medium mr-5">
       <span style="word-break: break-word;">{title}</span>
 
-      <span
-        title={uncompletedCount !== undefined
-          ? `${uncompletedCount} Uncompleted / ${totalCount} Total`
-          : `${totalCount} Journals`}
-        class="badge badge-neutral shrink-0"
-      >
-        {uncompletedCount !== undefined ? `${uncompletedCount} / ${totalCount}` : totalCount}
-      </span>
+      <span title="🧘" class="badge badge-neutral shrink-0"> 🧘 </span>
     </div>
 
     <!-- Collapse toggle. -->

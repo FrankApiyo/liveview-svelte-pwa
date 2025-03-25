@@ -21,6 +21,8 @@
     "phoenix_live_view": "file:../deps/phoenix_live_view",
     "svelte-dnd-action": "^0.9.48",
     "svelte-fa": "^4.0.2",
+    "vega": "^5.33.0",
+    "vega-embed": "^6.29.0",
     "y-indexeddb": "^9.0.12",
     "yjs": "^13.6.11"
   }

@@ -27,19 +27,12 @@
 
   import StickyHeader from "./StickyHeader.svelte";
   import ItemsContainer from "./ItemsContainer.svelte";
+  import WordCloud from "./WordCloud.svelte";
 </script>
 
 <StickyHeader />
 <div class="max-w-2xl mx-auto px-2 md:p-0 h-[85vh]">
-  <ItemsContainer
-    title="Analytics"
-    totalCount={0}
-    uncompletedCount={0}
-    bind:isDropdownOpened
-    {isScrollPositionRestored}
-  >
-    <p>The number is {number}</p>
-    <button on:click={increase}>+</button>
-    <button on:click={decrease}>-</button>
+  <ItemsContainer title="Analytics" bind:isDropdownOpened {isScrollPositionRestored}>
+    <WordCloud />
   </ItemsContainer>
 </div>
