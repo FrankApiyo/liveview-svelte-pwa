@@ -57,20 +57,41 @@
   const updateItem: UpdateItem = (newItem) => {
     for (const yJournal of $yJournals) {
       if (yJournal.get("id") === newItem.id) {
+        if (!yJournal.has("body")) {
+          yJournal.set("body", new Y.Text()); // Initialize if missing
+        }
+        const yBody = yJournal.get("body") as Y.Text;
+
         $yJournals.doc.transact(() => {
+          // Handle name updates
           yJournal.set("name", newItem.name);
 
-          newItem.newName === undefined || newItem.newName === ""
-            ? yJournal.delete("newName")
-            : yJournal.set("name", newItem.newName);
+          if (newItem.newName === undefined || newItem.newName === "") {
+            yJournal.delete("newName");
+          } else {
+            yJournal.set("name", newItem.newName);
+          }
 
-          newItem.newBody === undefined || newItem.newBody === ""
-            ? yJournal.delete("newBody")
-            : yJournal.set("body", newItem.newBody);
+          // Handle body updates
+          if (newItem.newBody !== undefined) {
+            // Calculate difference between old and new text
+            const currentText = yBody.toString();
+            const oldText = newItem.body;
+            const newText = newItem.newBody;
 
-          newItem.isEditing === undefined
-            ? yJournal.delete("isEditing")
-            : yJournal.set("isEditing", newItem.isEditing);
+            // Apply changes as delta operations
+            // This diffing algorithm can be turned off by a setting
+            applyTextChanges(yBody, oldText, newText);
+          } else {
+            yJournal.delete("newBody");
+          }
+
+          // Handle editing state
+          if (newItem.isEditing === undefined) {
+            yJournal.delete("isEditing");
+          } else {
+            yJournal.set("isEditing", newItem.isEditing);
+          }
         });
 
         syncDocumentToServer($liveView);
@@ -79,7 +100,48 @@
     }
   };
 
+  // Helper function to apply text changes as deltas
+  function applyTextChanges(yText: Y.Text, oldText: string, newText: string) {
+    // If texts are identical, no changes needed
+    if (oldText === newText) return;
+
+    // If the Y.Text is empty or completely different, just set the new value
+    if (yText.length === 0 || yText.toString() !== oldText) {
+      yText.delete(0, yText.length);
+      yText.insert(0, newText);
+      return;
+    }
+
+    // Find the first difference between old and new text
+    let i = 0;
+    while (i < oldText.length && i < newText.length && oldText[i] === newText[i]) {
+      i++;
+    }
+
+    // Find the last difference between old and new text
+    let j = oldText.length - 1;
+    let k = newText.length - 1;
+    while (j >= i && k >= i && oldText[j] === newText[k]) {
+      j--;
+      k--;
+    }
+
+    // Apply the changes
+    if (j < i) {
+      // Only insertions
+      yText.insert(i, newText.substring(i, k + 1));
+    } else if (k < i) {
+      // Only deletions
+      yText.delete(i, j - i + 1);
+    } else {
+      // Replacements
+      yText.delete(i, j - i + 1);
+      yText.insert(i, newText.substring(i, k + 1));
+    }
+  }
+
   const deleteItem: DeleteItem = (item) => {
+    var index = 0;
     for (const yJournal of $yJournals) {
       if (yJournal.get("id") === item.id) {
         $yJournals.doc.transact(() => {
