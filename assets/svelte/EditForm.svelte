@@ -14,7 +14,7 @@
   export let updateItem: UpdateItem;
   export let menuClass: string;
 
-  let newName = item.newName;
+  let newName = item.newName || "";
   let error = "";
 
   /**
@@ -47,8 +47,8 @@
     // Trim whitespace.
     newName = newName.replace(/\s+/g, " ").trim();
 
-    // Check if new item name is empty string or unchanged.
-    if (["", item.name].includes(newName)) {
+    // Check if new item name is unchanged.
+    if ((item.name = newName)) {
       discardEdits();
       return;
     }

@@ -2,14 +2,21 @@
 
 ![Logo](logo2.webp)
 
-This Journaling app is a demo of an installable [Phoenix](https://www.phoenixframework.org/)
-Progressive Web App ([PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps))
-that can sync real-time across multiple devices while also being able to work locally offline.
+This Journaling app is a demo of an installable [Phoenix](https://www.phoenixframework.org/) Progressive Web App ([PWA](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)) that can sync real-time across multiple devices while also being able to work locally offline.
+
+Learn more about the architecture of this app [here](/docs/architecture.md)
+
+### Analytics server
+
+- This web app also depends on an analytics server which is responsible for generating insights on user journaling
+- Please read more about the analytics server [here](https://github.com/FrankApiyo/journal_analytics)
+- The analytics server utilizes API endpoints whose documentation can be accessed once the server is running [here](http://localhost:4000/swaggerui)
 
 ## Running Locally
 
 You can run this app locally by following the steps below after cloning the repo.
 
+0. [Install elixir and erlang](https://elixir-lang.org/install.html#gnulinux)
 1. Install the Phoenix dependencies.
 
 ```sh
@@ -28,6 +35,7 @@ npm install --prefix assets
 3. Create the database.
 
 ```sh
+docker compose up
 mix ecto.create
 ```
 
@@ -54,27 +62,6 @@ cd "$GIT_ROOT" || exit 1
 mix format
 ' > .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
-```
-
-## Deploying the Project
-
-To deploy this app to [Fly.io](https://fly.io/), run the following commands.
-**Note:** You will need to have an account with Fly and
-[`flyctl`](https://fly.io/docs/hands-on/install-flyctl/) installed.
-
-1. Remove the `fly.toml` file. A new one will be created when you run `fly launch`.
-
-```sh
-rm fly.toml
-```
-
-2. Initialize and deploy the project. Fly will automatically detect the app type
-and set up the necessary configuration. You can tweak the settings or stick with
-the defaults, but make sure that a Postgres database is included in the
-configuration settings.
-
-```sh
-fly launch
 ```
 
 ## Technologies Used
