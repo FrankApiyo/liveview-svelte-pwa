@@ -91,7 +91,10 @@ defmodule LiveViewSvelteOfflineDemo.UserData do
     # journals Yex.Map -> ex list
     yJournals
     |> Yex.Array.to_list()
-    |> Enum.map(fn list -> Yex.Map.to_map(list) end)
+    |> Enum.map(fn journal -> Yex.Map.to_map(journal) end)
+    |> Enum.map(fn journal ->
+      Map.put(journal, "body", Yex.Text.to_string(Map.get(journal, "body")))
+    end)
   end
 
   @doc """
