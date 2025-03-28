@@ -1,7 +1,7 @@
 defmodule LiveViewSvelteOfflineDemoWeb.AuthControllerTest do
   use LiveViewSvelteOfflineDemoWeb.ConnCase, async: true
 
-  @valid_attrs %{"email" => "test@example.com", "password" => "securepassword"}
+  @valid_attrs %{"email" => "test@example.com", "password" => "Securepassword@&"}
   @invalid_attrs %{"email" => "test@example.com", "password" => "secret"}
   @login_invalid_attrs %{"email" => "test@example.com", "password" => "wrongpassword"}
   @api_key Application.compile_env!(:live_view_svelte_offline_demo, :api_auth)[:signup_token]
@@ -17,7 +17,11 @@ defmodule LiveViewSvelteOfflineDemoWeb.AuthControllerTest do
 
       assert json_response(conn, 422) == %{
                "errors" => %{
-                 "password" => ["should be at least 12 character(s)"]
+                 "password" => [
+                   "at least one digit or punctuation character",
+                   "at least one upper case character",
+                   "should be at least 12 character(s)"
+                 ]
                }
              }
     end
