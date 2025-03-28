@@ -34,13 +34,14 @@ defmodule LiveViewSvelteOfflineDemoWeb.UserDataControllerTest do
 
       response = get(conn, ~p"/api/user_documents")
 
-      assert json_response(response, 200)["documents"] == [
-               %{
-                 "id" => "4347f1ea-582a-4637-8525-6f5f9af5bc7e",
-                 "body" => "Hey, how are you? How did you sleep? Are you ok?",
-                 "name" => "Good morning journal!"
-               }
-             ]
+      assert json_response(response, 200)["documents"] ==
+               [
+                 %{
+                   "body" => "One two three four five six seven 8 9 20",
+                   "id" => "a1e5472d-e2f6-4157-8057-291416648b87",
+                   "name" => "one"
+                 }
+               ]
     end
 
     test "returns 401 when user is not authenticated", %{conn: conn} do

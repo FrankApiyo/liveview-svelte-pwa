@@ -22,8 +22,7 @@ defmodule LiveViewSvelteOfflineDemo.UserDataTest do
 
     test "create_user_document/1 with valid data creates a user_document" do
       valid_attrs = %{document: "some document"}
-
-      assert {:ok, %UserDocument{} = user_document} = UserData.create_user_document(valid_attrs)
+      user_document = user_document_fixture(valid_attrs)
       assert user_document.document == "some document"
     end
 
